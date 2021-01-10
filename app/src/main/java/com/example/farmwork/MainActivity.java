@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
             setLocale("hi");
             recreate();
         }
+        if (text == "తెలుగు") {
+            setLocale("te");
+            recreate();
+        }
     }
     private void setLocale(String lang){
         Locale locale = new Locale(lang);
