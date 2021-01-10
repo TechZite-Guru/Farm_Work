@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">పొలం పని</string>
     <string name="select_lang">భాషను ఎంచుకోండి</string>
+    <string name="slide_1_title">పొలం పని</string>
 </resources>

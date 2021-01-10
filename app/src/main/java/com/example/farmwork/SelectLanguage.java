@@ -33,11 +33,11 @@ public class SelectLanguage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String language = text_hindi_lang.getText().toString();
-                Intent to_main = new Intent(getApplicationContext(), MainActivity.class);
-                to_main.putExtra("mytext",language);
+                Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
+                to_welcome.putExtra("mytext",language);
                 setLocale("hi");
                 recreate();
-                startActivity(to_main);
+                startActivity(to_welcome);
             }
         });
 
@@ -45,11 +45,11 @@ public class SelectLanguage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String language = text_tel_lang.getText().toString();
-                Intent to_main = new Intent(getApplicationContext(), MainActivity.class);
-                to_main.putExtra("mytext",language);
+                Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
+                to_welcome.putExtra("mytext",language);
                 setLocale("te");
                 recreate();
-                startActivity(to_main);
+                startActivity(to_welcome);
             }
         });
     }
