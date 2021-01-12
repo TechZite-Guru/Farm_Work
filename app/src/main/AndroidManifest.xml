@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".WelcomeActivity"
             android:theme="@style/Theme_No_ActionBar"/>
+        <activity android:name=".SelectedCategory"/>
     </application>
 
 </manifest>

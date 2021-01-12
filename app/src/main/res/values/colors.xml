@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#0ed600</color>
+    <color name="grey_selectable">#969696</color>
 
     <!-- Screens background color-->
     <color name="bg_screen1">#f64c73</color>
