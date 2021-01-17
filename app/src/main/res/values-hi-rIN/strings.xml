@@ -3,4 +3,7 @@
     <string name="select_lang">भाषा का चयन करें</string>
     <string name="app_name">कृषि कार्य</string>
     <string name="slide_1_title">कृषि कार्य</string>
+    <string name="title_home">होम</string>
+    <string name="title_dashboard">कर्मी</string>
+    <string name="title_notifications">मशीनरी</string>
 </resources>

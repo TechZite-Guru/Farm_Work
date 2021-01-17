@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -20,7 +22,7 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.activity_splash_screen);
 
         progressBar = findViewById(R.id.progress_circular);
-        progressBar.getIndeterminateDrawable().setColorFilter(0xFF009113, android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255, 161, 0), PorterDuff.Mode.SRC_ATOP);
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {

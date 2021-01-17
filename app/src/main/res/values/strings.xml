@@ -22,7 +22,7 @@
     <string name="play_again_desc" translatable="false">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again" translatable="false">Play Again</string>
     <string name="title_activity_home" translatable="false">Home</string>
-    <string name="title_home" translatable="false">Home</string>
-    <string name="title_dashboard" translatable="false">Workers</string>
-    <string name="title_notifications" translatable="false">Machinery</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Workers</string>
+    <string name="title_notifications">Machinery</string>
 </resources>

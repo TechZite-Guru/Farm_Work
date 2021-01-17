@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../sdk_android/Android/Sdk/icons/material/materialicons/account_circle/baseline_account_circle_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../sdk_android/Android/Sdk/icons/material/materialicons/construction/baseline_construction_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_baseline_account_circle_24" />
+                            <entry key="outputName" value="ic_baseline_construction_24" />
                             <entry key="sourceFile" value="C:\Users\Aravind Jagarlamudi\AndroidStudioProjects\FarmWork" />
                           </map>
                         </option>

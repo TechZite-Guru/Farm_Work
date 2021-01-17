@@ -21,7 +21,7 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:itemIconSize="30dp"
+        app:itemIconSize="25dp"
         app:itemIconTint="@color/menu_onchecked"
         app:itemTextColor="@color/menu_onchecked"
         android:background="@color/orange_500"
