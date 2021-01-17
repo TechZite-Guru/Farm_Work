@@ -16,18 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements CategoryAdapter.SelectedCategory {
+public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
 
     List<CategoryModel> category_list = new ArrayList<>();
 
-    int[] logos = {R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount};
+    int[] logos = {R.drawable.ic_baseline_account_circle_24, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount, R.drawable.ic_discount};
 
-    String[] names = {"BROADBAND","BUSES","AIRLINES","GROCERY","METRO", "BANKING SECTOR", "TRAVEL / RESERVATION", "FOOD DELIVERY", "STATE GOVERNMENT", "INDIAN HELPLINE", "ONLINE SHOPPING", "TELECOM", "DTH", "LOANS", "ELECTRICITY", "GAS BOOKING", "ONLINE TRADING", "HOSPITALS", "PHARMACY", "CANCER TREATMENT CENTERS", "MEDICAL COLLEGES", "WOMEN HELPLINE", "AIRPORTS", "MOBILE BRANDS", "LAPTOP BRANDS", "ELECTRIC APPLIANCES", "PHYSICALLY CHALLENGED HELPLINE", "COURIER SERVICES", "INTERNATIONAL COURIERS SERVICES", "STUDY ABROAD HELPLINE", "HEALTH EMERGENCY"};
+    String[] names = {"Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind", "Aravind"};
 
-    CategoryAdapter categoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.S
             }
         }
 
+
+
         /*category_list.add(new CategoryModel(R.drawable.ic_twotone_account_balance_24, "BANKING SECTOR"));
         category_list.add(new CategoryModel(R.drawable.ic_twotone_train_24, "TRAVEL / RESERVATION"));
         category_list.add(new CategoryModel(R.drawable.ic_twotone_food_bank_24, "FOOD DELIVERY"));
@@ -64,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.S
         category_list.add(new CategoryModel(R.drawable.ic_twotone_local_gas_station_24, "GAS BOOKING"));
         category_list.add(new CategoryModel(R.drawable.ic_twotone_trending_up_24, "ONLINE TRADING"));*/
 
-        categoryAdapter = new CategoryAdapter(category_list, this);
-        recyclerView.setAdapter(categoryAdapter);
-
     }
 
     /*Bundle bundle = getIntent().getExtras();
@@ -79,16 +77,11 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.S
             setLocale("te");
             recreate();
         }*/
-    private void setLocale(String lang){
+    private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-    }
-
-    @Override
-    public void selectedCategory(CategoryModel categoryModel) {
-        startActivity(new Intent(MainActivity.this, SelectedCategory.class).putExtra("data", categoryModel));
     }
 }

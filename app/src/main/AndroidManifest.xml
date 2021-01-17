@@ -9,10 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FarmWork">
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"></activity>
         <activity android:name=".SplashScreen">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -21,11 +24,11 @@
             android:theme="@style/Theme_No_ActionBar" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.FarmWork" >
-        </activity>
-        <activity android:name=".WelcomeActivity"
-            android:theme="@style/Theme_No_ActionBar"/>
-        <activity android:name=".SelectedCategory"/>
+            android:theme="@style/Theme.FarmWork" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/Theme_No_ActionBar" />
+        <activity android:name=".SelectedCategory" />
     </application>
 
 </manifest>
