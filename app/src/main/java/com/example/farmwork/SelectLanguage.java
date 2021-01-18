@@ -94,7 +94,7 @@ public class SelectLanguage extends AppCompatActivity {
         editor.putString("Selected_lang",lang);
         editor.apply();
     }
-    //load data from shared preferences
+    //load data from shared preferences -language_selected
     public void loadLocale(){
         SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = prefs.getString("Selected_lang", "");
