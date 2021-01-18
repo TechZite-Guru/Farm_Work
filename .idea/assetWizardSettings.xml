@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../sdk_android/Android/Sdk/icons/material/materialicons/language/baseline_language_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../sdk_android/Android/Sdk/icons/material/materialicons/arrow_left/baseline_arrow_left_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_baseline_language_24" />
+                            <entry key="outputName" value="ic_arrow_left" />
                             <entry key="sourceFile" value="C:\Users\Aravind Jagarlamudi\AndroidStudioProjects\FarmWork" />
                           </map>
                         </option>

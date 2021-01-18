@@ -1,4 +1,4 @@
-package com.example.farmwork.ui.notifications;
+package com.example.farmwork;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

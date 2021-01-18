@@ -54,7 +54,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
 
-        Bundle bundle = getIntent().getExtras();
+        /*Bundle bundle = getIntent().getExtras();
         String text = bundle.getString("mytext");
         if (text == "English") {
             setLocale("en");
@@ -67,7 +67,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if (text == "తెలుగు") {
             setLocale("te");
             recreate();
-        }
+        }*/
 
         // layouts of all welcome sliders
         // add few more layouts if you want

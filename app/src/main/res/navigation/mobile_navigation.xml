@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_machinery"
-        android:name="com.example.farmwork.ui.notifications.NotificationsFragment"
+        android:name="com.example.farmwork.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

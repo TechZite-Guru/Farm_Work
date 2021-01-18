@@ -30,6 +30,10 @@
             android:name=".WelcomeActivity"
             android:theme="@style/Theme_No_ActionBar" />
         <activity android:name=".SelectedCategory" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
