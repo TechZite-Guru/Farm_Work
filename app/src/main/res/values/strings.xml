@@ -25,4 +25,5 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Workers</string>
     <string name="title_notifications">Machinery</string>
+    <string name="menu_name" translatable="false">search</string>
 </resources>
