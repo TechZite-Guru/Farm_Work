@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ import java.util.List;
 public class WorkerFragment extends Fragment {
 
     private WorkerViewModel dashboardViewModel;
-
+    LinearLayout worker_fragment_back;
     public RecyclerView recyclerView;
     Toolbar toolbar;
     CategoryAdapter categoryAdapter;
@@ -41,6 +42,7 @@ public class WorkerFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_worker, container, false);
 
         recyclerView = root.findViewById(R.id.recyclerview);
+        worker_fragment_back = root.findViewById(R.id.worker_fragment_background);
         categoryAdapter = new CategoryAdapter(category_list, getContext());
         recyclerView.setAdapter(categoryAdapter);
 
@@ -51,7 +53,7 @@ public class WorkerFragment extends Fragment {
                 // Do not draw the divider
             }
         });
-
+        //worker_fragment_back.getBackground().setAlpha(200);
         return root;
     }
 
@@ -67,5 +69,6 @@ public class WorkerFragment extends Fragment {
                 break;
             }
         }
+
     }
 }

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange_200"
     tools:context=".WorkerFragment">
 
     <LinearLayout
+        android:id="@+id/worker_fragment_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/farm1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 

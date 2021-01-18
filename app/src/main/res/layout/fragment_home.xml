@@ -7,34 +7,4 @@
     android:background="@color/orange_200"
     tools:context=".HomeFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        <!--<Button
-            android:id="@+id/btn_play_again"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/play_again" />-->
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"
-            android:fadeScrollbars="true"
-            android:scrollbarSize="5dp"
-            android:scrollbarThumbVertical="@color/orange_500"
-            android:paddingTop="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="0dp"/>
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

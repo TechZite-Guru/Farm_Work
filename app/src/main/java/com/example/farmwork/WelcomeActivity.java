@@ -35,17 +35,6 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = getIntent().getExtras();
-        String text = bundle.getString("mytext");
-        if (text == "हिंदी") {
-            setLocale("hi");
-            recreate();
-        }
-        if (text == "తెలుగు") {
-            setLocale("te");
-            recreate();
-        }
-
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
@@ -65,6 +54,20 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
 
+        Bundle bundle = getIntent().getExtras();
+        String text = bundle.getString("mytext");
+        if (text == "English") {
+            setLocale("en");
+            recreate();
+        }
+        if (text == "हिंदी") {
+            setLocale("hi");
+            recreate();
+        }
+        if (text == "తెలుగు") {
+            setLocale("te");
+            recreate();
+        }
 
         // layouts of all welcome sliders
         // add few more layouts if you want
