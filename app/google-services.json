@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "421958165398",
+    "project_id": "farm-work",
+    "storage_bucket": "farm-work.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421958165398:android:d6b9503b55d2eccec173b7",
+        "android_client_info": {
+          "package_name": "com.example.farmwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421958165398-nu8e3mr24sn33sbhcnp9h3nl1v6mvnqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB45ggrn8tkYnkV-HS7Atf7MFqMTuE4tas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421958165398-nu8e3mr24sn33sbhcnp9h3nl1v6mvnqa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
