@@ -86,8 +86,8 @@ public class RegisterFragment extends Fragment {
                             userID = fAuth.getCurrentUser().getUid();
                             //registerProgress.setVisibility(View.INVISIBLE);
                             Map<String, Object> user = new HashMap<>();
-                            user.put("Name", register_fullName);
-                            user.put("E-mail", register_email);
+                            user.put("name", register_fullName);
+                            user.put("email", register_email);
                             fStore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

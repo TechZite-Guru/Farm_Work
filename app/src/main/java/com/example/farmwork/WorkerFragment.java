@@ -18,6 +18,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,9 @@ public class WorkerFragment extends Fragment {
     public RecyclerView recyclerView;
     Toolbar toolbar;
     CategoryAdapter categoryAdapter;
+    FirebaseFirestore fStore;
+    FirebaseAuth fAuth;
+    String currentUserID;
 
     List<WorkerViewModel> category_list = new ArrayList<>();
 
@@ -43,8 +50,10 @@ public class WorkerFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.recyclerview);
         worker_fragment_back = root.findViewById(R.id.worker_fragment_background);
-        categoryAdapter = new CategoryAdapter(category_list, getContext());
-        recyclerView.setAdapter(categoryAdapter);
+
+        fAuth = FirebaseAuth.getInstance();
+
+        currentUserID = fAuth.getCurrentUser().getUid();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL) {
@@ -53,11 +62,30 @@ public class WorkerFragment extends Fragment {
                 // Do not draw the divider
             }
         });
+
+        FirestoreRecyclerOptions<WorkerViewModel> options =
+                new FirestoreRecyclerOptions.Builder<WorkerViewModel>()
+                        .setQuery(FirebaseFirestore.getInstance().collection("users"), WorkerViewModel.class)
+                        .build();
+
+        categoryAdapter = new CategoryAdapter(options);
+        recyclerView.setAdapter(categoryAdapter);
         //worker_fragment_back.getBackground().setAlpha(200);
         return root;
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+        categoryAdapter.startListening();
+    }
 
     @Override
+    public void onStop(){
+        super.onStop();
+        categoryAdapter.stopListening();
+    }
+
+    /*@Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -70,5 +98,6 @@ public class WorkerFragment extends Fragment {
             }
         }
 
-    }
+
+    }*/
 }

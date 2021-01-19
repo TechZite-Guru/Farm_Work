@@ -111,7 +111,7 @@ public class ProfileFragment extends Fragment {
                 String new_Phone_number = add_phone_field.getText().toString().trim();
                 if (!TextUtils.isEmpty(new_username)){
                     Map<String, Object> user = new HashMap<>();
-                    user.put("Name", new_username);
+                    user.put("name", new_username);
                     fStore.collection("users").document(currentUserID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -123,7 +123,7 @@ public class ProfileFragment extends Fragment {
                 }
                 if (!TextUtils.isEmpty(new_Phone_number)){
                     Map<String, Object> user = new HashMap<>();
-                    user.put("Phone Number", new_Phone_number);
+                    user.put("phone", new_Phone_number);
                     fStore.collection("users").document(currentUserID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -141,10 +141,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if (documentSnapshot != null) {
-                    profile_email.setText(documentSnapshot.getString("E-mail"));
-                    profile_fullName.setText(documentSnapshot.getString("Name"));
-                    profile_phone.setText(documentSnapshot.getString("Phone Number"));
-                    String profile_pic_string = documentSnapshot.getString("Profile_Image");
+                    profile_email.setText(documentSnapshot.getString("email"));
+                    profile_fullName.setText(documentSnapshot.getString("name"));
+                    profile_phone.setText(documentSnapshot.getString("phone"));
+                    String profile_pic_string = documentSnapshot.getString("profile_image");
                     Picasso.get().load(profile_pic_string).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_pic);
                     Log.d("URL", "Download URL :" + profile_pic_string);
                 }
@@ -187,7 +187,7 @@ public class ProfileFragment extends Fragment {
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     download_url = String.valueOf(task.getResult());
                                     Map<String, Object> user = new HashMap<>();
-                                    user.put("Profile_Image", download_url);
+                                    user.put("profile_image", download_url);
                                     fStore.collection("users").document(currentUserID).update(user);
                                     Log.d("URL","Download URL :" +download_url);
                                 }

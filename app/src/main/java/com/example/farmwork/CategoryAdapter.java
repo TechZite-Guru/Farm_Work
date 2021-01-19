@@ -13,48 +13,53 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<com.example.farmwork.CategoryAdapter.CategoryAdapterVh> {
+public class CategoryAdapter extends FirestoreRecyclerAdapter<WorkerViewModel, CategoryAdapter.CategoryAdapterVh> {
 
     private List<WorkerViewModel> categoryModelList;
     private List<WorkerViewModel> getHomeViewModelListFiltered;
     private Context context;
 
-    public CategoryAdapter(List<WorkerViewModel> categoryModelList, Context context) {
-        this.categoryModelList = categoryModelList;
-        this.context = context;
+    /**
+     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+     * {@link FirebaseRecyclerOptions} for configuration options.
+     *
+     * @param options
+     */
+    public CategoryAdapter(@NonNull FirestoreRecyclerOptions<WorkerViewModel> options) {
+        super(options);
     }
+
 
     @NonNull
     @Override
-    public com.example.farmwork.CategoryAdapter.CategoryAdapterVh onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        return new CategoryAdapterVh(LayoutInflater.from(context).inflate(R.layout.available_workers,null));
+    public CategoryAdapterVh onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.available_workers, parent, false);
+        return new CategoryAdapterVh(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CategoryAdapterVh holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryAdapterVh holder, int position, @NonNull WorkerViewModel model) {
 
-        WorkerViewModel categoryModel = categoryModelList.get(position);
-        int prefix = categoryModel.getPrefix();
-        String category_name = categoryModel.getCategory();
-        int category_row = categoryModel.getCategory_row();
-
-        holder.tvprefix.setImageResource(prefix);
+        String prefix = model.getProfile_image();
+        String category_name = model.getName();
+        String location = model.getLocation();
+        int category_row = model.getCategory_row();
+        Picasso.get().load(model.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(holder.tvprefix);
         holder.tvname.setText(category_name);
+        holder.tvlocation.setText(location);
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return categoryModelList.size();
     }
 
 
     public class CategoryAdapterVh extends RecyclerView.ViewHolder {
         ImageView tvprefix;
-        TextView tvname;
+        TextView tvname, tvlocation;
         CardView tvcardView;
         LinearLayout tvcategory_name;
         LinearLayout tvcategory_row;
@@ -62,6 +67,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<com.example.farmwork.C
             super(itemView);
             tvprefix = itemView.findViewById(R.id.prefix);
             tvname = itemView.findViewById(R.id.name);
+            tvlocation = itemView.findViewById(R.id.location);
             tvcategory_row = itemView.findViewById(R.id.category_row);
             tvcardView = itemView.findViewById(R.id.cardView);
 
