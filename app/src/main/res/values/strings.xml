@@ -37,4 +37,5 @@
     <string name="register" translatable="false">Register</string>
     <string name="re_type_password" translatable="false">Re-type Password</string>
     <string name="your_name" translatable="false">Full Name</string>
+    <string name="title_profile" translatable="false">Profile</string>
 </resources>

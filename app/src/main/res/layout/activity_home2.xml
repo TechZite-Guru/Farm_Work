@@ -23,6 +23,7 @@
         app:itemIconSize="25dp"
         app:itemIconTint="@color/menu_onchecked"
         app:itemTextColor="@color/menu_onchecked"
+        app:labelVisibilityMode="labeled"
         android:background="@color/orange_500"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu" />

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Locale;
 
 public class SelectLanguage extends AppCompatActivity {
@@ -21,6 +23,7 @@ public class SelectLanguage extends AppCompatActivity {
     Context context;
     TextView text_hindi_lang, text_tel_lang, text_eng_lang;
     private PrefManager prefManager;
+    FirebaseAuth fAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +45,11 @@ public class SelectLanguage extends AppCompatActivity {
         text_hindi_lang = findViewById(R.id.hindi_lang_text);
         text_tel_lang = findViewById(R.id.tel_lang_text);
 
-
-
         layout_eng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String language = text_eng_lang.getText().toString();
-                Intent to_welcome = new Intent(getApplicationContext(), MainActivity.class);
+                Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 setLocale("en");
                 recreate();
                 startActivity(to_welcome);
@@ -59,7 +60,7 @@ public class SelectLanguage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String language = text_hindi_lang.getText().toString();
-                Intent to_welcome = new Intent(getApplicationContext(), MainActivity.class);
+                Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 //to_welcome.putExtra("mytext",language);
                 setLocale("hi");
                 recreate();
@@ -71,7 +72,7 @@ public class SelectLanguage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String language = text_tel_lang.getText().toString();
-                Intent to_welcome = new Intent(getApplicationContext(), MainActivity.class);
+                Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 //to_welcome.putExtra("mytext",language);
                 setLocale("te");
                 recreate();
@@ -81,10 +82,8 @@ public class SelectLanguage extends AppCompatActivity {
     }
 
     private void launchWelcomeActivity() {
-
-            prefManager.setFirstTimeLaunch(false);
-            startActivity(new Intent(SelectLanguage.this, Home.class));
-
+        prefManager.setFirstTimeLaunch(false);
+        startActivity(new Intent(SelectLanguage.this, MainActivity.class));
     }
 
     private void setLocale(String lang){
