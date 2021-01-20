@@ -89,24 +89,6 @@ public class Home extends AppCompatActivity implements LocationListener {
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
-    /*private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            //your code here
-            Location new_location = location;
-            if (new_location == null){
-                Map<String, Object> user = new HashMap<>();
-                user.put("location", new_location);
-                fStore.collection("users").document(currentUserID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Username", "Username Updated Succesfully");
-                    }
-                });
-            }
-        }
-    };*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);

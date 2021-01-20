@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView change_profile, change_username, phone_edit_icon;
     CircleImageView profile_pic;
-    TextView profile_fullName, profile_email, profile_phone;
+    TextView profile_fullName, profile_email, profile_phone, full_address;
     EditText username_change_field, add_phone_field;
     Button profile_update, logout_btn;
     FirebaseAuth fAuth;
@@ -71,6 +71,7 @@ public class ProfileFragment extends Fragment {
         add_phone_field = root.findViewById(R.id.add_phone_number);
         profile_update = root.findViewById(R.id.profile_update_button);
         logout_btn = root.findViewById(R.id.logout_button);
+        full_address = root.findViewById(R.id.full_address);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -144,6 +145,8 @@ public class ProfileFragment extends Fragment {
                     profile_email.setText(documentSnapshot.getString("email"));
                     profile_fullName.setText(documentSnapshot.getString("name"));
                     profile_phone.setText(documentSnapshot.getString("phone"));
+                    full_address.setText(documentSnapshot.getString("location"));
+
                     String profile_pic_string = documentSnapshot.getString("profile_image");
                     Picasso.get().load(profile_pic_string).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_pic);
                     Log.d("URL", "Download URL :" + profile_pic_string);
