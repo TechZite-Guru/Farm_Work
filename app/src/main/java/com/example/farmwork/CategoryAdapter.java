@@ -27,10 +27,15 @@ import com.squareup.picasso.Picasso;
 import java.lang.annotation.Documented;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import static java.lang.Double.doubleToLongBits;
+import static java.lang.Double.parseDouble;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryAdapterVh> implements Filterable {
 
     private List<WorkerViewModel> workerViewModelList;
+    private List<WorkerViewModel> locationList;
     private List<WorkerViewModel> getWorkerViewModelListFiltered;
     BookingPage bookingPage;
     WorkerFragment workerFragment;
@@ -57,6 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(holder.tvprefix);
         holder.tvname.setText(workerViewModel.getName());
         holder.tvlocation.setText(workerViewModel.getLocation());
+
 
         /*holder.tvbook_now_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +130,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         View view;
         Button tvbook_now_btn;
         ImageView tvprefix;
-        TextView tvname, tvlocation;
+        TextView tvname, tvlocation, tvdistance;
         CardView tvcardView;
         LinearLayout tvcategory_name;
         LinearLayout tvcategory_row;
@@ -133,6 +139,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             tvbook_now_btn = itemView.findViewById(R.id.book_now_btn);
             tvprefix = itemView.findViewById(R.id.prefix);
             tvname = itemView.findViewById(R.id.name);
+            tvdistance = itemView.findViewById(R.id.distance);
             tvlocation = itemView.findViewById(R.id.location);
             tvcategory_row = itemView.findViewById(R.id.category_row);
             tvcardView = itemView.findViewById(R.id.cardView);

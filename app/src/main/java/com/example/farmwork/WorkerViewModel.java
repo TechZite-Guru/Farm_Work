@@ -11,15 +11,14 @@ public class WorkerViewModel extends ViewModel implements Serializable {
     private String profile_image;
     private String name;
     private String location;
+    private String phone;
 
-    WorkerViewModel(){
 
-    }
-
-    public WorkerViewModel(String email, String name, String phone, String location, String profile_image ){
+    public WorkerViewModel(String email, String name, String phone, String location, String profile_image){
         this.profile_image = profile_image;
         this.name = name;
         this.location = location;
+        this.phone = phone;
     }
 
     public String getProfile_image(){

@@ -98,7 +98,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     private void detectCurrentLocation() {
         Toast.makeText(this, "Please wait, getting your Location", Toast.LENGTH_SHORT).show();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 0, this);
     }
 
     @Override
@@ -118,9 +118,11 @@ public class Home extends AppCompatActivity implements LocationListener {
             String full_address = addresses.get(0).getAddressLine(0);
 
             if (full_address != null){
-                Map<String, Object> user = new HashMap<>();
-                user.put("location", full_address);
-                fStore.collection("users").document(currentUserID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                Map<String, Object> location = new HashMap<>();
+                location.put("location", full_address);
+                location.put("latitude", latitude);
+                location.put("longitude", longitude);
+                fStore.collection("users").document(currentUserID).update(location).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("Location", "Location Updated Succesfully");

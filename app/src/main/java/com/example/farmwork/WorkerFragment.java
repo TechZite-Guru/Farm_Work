@@ -1,7 +1,16 @@
 package com.example.farmwork;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +21,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,6 +65,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
     String currentUserID;
     SwipeRefreshLayout swipeRefreshLayout;
     BookingPage bookingPage;
+    ProgressDialog pd;
 
     List<WorkerViewModel> worker_list = new ArrayList<>();
 
@@ -67,28 +79,34 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         recyclerView = root.findViewById(R.id.recyclerview);
         prefix = root.findViewById(R.id.prefix);
         swipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        pd = new ProgressDialog(getContext());
+
+        //progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255, 161, 0), PorterDuff.Mode.SRC_ATOP);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         currentUserID = fAuth.getCurrentUser().getUid();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL) {
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL) {
             @Override
             public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
                 // Do not draw the divider
             }
         });
-
+        pd.show();
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setContentView(R.layout.progress_dialog);
+        pd.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         collectData();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 worker_list.clear();
+                pd.dismiss();
                 collectData();
                 categoryAdapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -109,12 +127,13 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         return root;
     }
 
-
     private void collectData() {
         CollectionReference documentReference = fStore.collection("users");
         documentReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                pd.dismiss();
+                swipeRefreshLayout.setRefreshing(false);
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         WorkerViewModel workerViewModel = new WorkerViewModel(documentSnapshot.getString("email"),
@@ -129,6 +148,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                     recyclerView.setAdapter(categoryAdapter);
                 }
                 else {
+                    pd.dismiss();
                     Log.d("ERROR", "Error getting documents: ", task.getException());
                 }
             }

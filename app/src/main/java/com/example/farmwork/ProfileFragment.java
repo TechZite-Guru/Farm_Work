@@ -125,9 +125,6 @@ public class ProfileFragment extends Fragment {
                     username_change_field.setVisibility(View.GONE);
                     profile_fullName.setVisibility(View.VISIBLE);
                 }
-                else{
-                    Log.d("Username", "Username Not Updated Succesfully");
-                }
                 if (!TextUtils.isEmpty(new_Phone_number)){
                     Map<String, Object> user = new HashMap<>();
                     user.put("phone", new_Phone_number);
