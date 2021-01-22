@@ -109,18 +109,24 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String new_username = username_change_field.getText().toString().trim();
+                String new_search_name = username_change_field.getText().toString().toLowerCase().trim();
                 String new_Phone_number = add_phone_field.getText().toString().trim();
                 if (!TextUtils.isEmpty(new_username)){
                     Map<String, Object> user = new HashMap<>();
                     user.put("name", new_username);
+                    user.put("search_name", new_search_name);
                     fStore.collection("users").document(currentUserID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d("Username", "Username Updated Succesfully");
+                            Log.d("Search_Name", "Search_Name Updated Succesfully");
                         }
                     });
                     username_change_field.setVisibility(View.GONE);
                     profile_fullName.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Log.d("Username", "Username Not Updated Succesfully");
                 }
                 if (!TextUtils.isEmpty(new_Phone_number)){
                     Map<String, Object> user = new HashMap<>();

@@ -31,14 +31,14 @@
             android:paddingTop="30dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/prefix"
+                android:id="@+id/image_holder"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_baseline_account_circle_24" />
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -48,7 +48,7 @@
                 android:textSize="25sp" />
 
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/user_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -77,7 +77,7 @@
                 android:textSize="17dp" />
 
             <Button
-                android:id="@+id/book_now_btn"
+                android:id="@+id/book_now_btn2"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:letterSpacing="0"

@@ -75,8 +75,11 @@
                         android:layout_gravity="center_vertical"
                         android:backgroundTint="@color/white"
                         android:hint="Change Username"
+                        android:inputType="text"
                         android:textCursorDrawable="@null"
                         android:textSize="15sp"
+                        android:maxLength="20"
+                        android:maxLines="1"
                         android:visibility="gone" />
 
                     <ImageView
@@ -278,6 +281,9 @@
                     android:layout_gravity="center_vertical"
                     android:hint="Add Phone Number"
                     android:paddingLeft="20dp"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:maxLength="13"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

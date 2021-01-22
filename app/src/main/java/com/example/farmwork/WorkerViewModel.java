@@ -4,18 +4,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class WorkerViewModel extends ViewModel {
+import java.io.Serializable;
+
+public class WorkerViewModel extends ViewModel implements Serializable {
 
     private String profile_image;
     private String name;
     private String location;
-    private int category_row;
 
     WorkerViewModel(){
 
     }
 
-    public WorkerViewModel(String profile_image, String name, String location){
+    public WorkerViewModel(String email, String name, String phone, String location, String profile_image ){
         this.profile_image = profile_image;
         this.name = name;
         this.location = location;
@@ -29,7 +30,5 @@ public class WorkerViewModel extends ViewModel {
         return name;
     }
 
-    public String getLocation(){ return location; }
-
-    public int getCategory_row() { return category_row; };
+    public String getLocation() { return location; }
 }

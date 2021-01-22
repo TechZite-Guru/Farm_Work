@@ -4,35 +4,42 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -42,10 +49,13 @@ import java.util.Map;
 
 public class Home extends AppCompatActivity implements LocationListener {
 
+    RecyclerView search_recyclerview, recyclerView;
     LocationManager mLocationManager;
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     String currentUserID;
+    WorkerFragment workerFragment;
+    CategoryAdapter categoryAdapter;
 
     private double latitude, longitude;
 
@@ -69,6 +79,8 @@ public class Home extends AppCompatActivity implements LocationListener {
         fAuth = FirebaseAuth.getInstance();
         currentUserID = fAuth.getCurrentUser().getUid();
 
+        recyclerView = findViewById(R.id.recyclerview);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -86,49 +98,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     private void detectCurrentLocation() {
         Toast.makeText(this, "Please wait, getting your Location", Toast.LENGTH_SHORT).show();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.search_service);
-
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        int id = item.getItemId();
-
-        if (id == R.id.search_service){
-            return true;
-        }
-
-        if (id == R.id.lang_support){
-            PrefManager prefManager = new PrefManager(getApplicationContext());
-
-            // make first time launch TRUE
-            prefManager.setFirstTimeLaunch(true);
-
-            startActivity(new Intent(Home.this, SelectLanguage.class));
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
     }
 
     @Override
@@ -144,6 +114,7 @@ public class Home extends AppCompatActivity implements LocationListener {
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(latitude,longitude,1);
+
             String full_address = addresses.get(0).getAddressLine(0);
 
             if (full_address != null){

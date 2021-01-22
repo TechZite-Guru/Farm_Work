@@ -58,6 +58,7 @@ public class RegisterFragment extends Fragment {
                 final String register_email = user_mail.getText().toString().trim();
                 String register_password = password.getText().toString().trim();
                 final String register_fullName = full_name.getText().toString().trim();
+                final String search_name = full_name.getText().toString().toLowerCase().trim();
 
                 if (TextUtils.isEmpty(register_fullName)){
                     full_name.setError("FullName is required");
@@ -88,6 +89,7 @@ public class RegisterFragment extends Fragment {
                             Map<String, Object> user = new HashMap<>();
                             user.put("name", register_fullName);
                             user.put("email", register_email);
+                            user.put("search_name", search_name);
                             fStore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
