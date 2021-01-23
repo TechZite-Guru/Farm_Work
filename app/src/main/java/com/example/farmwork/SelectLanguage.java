@@ -31,7 +31,7 @@ public class SelectLanguage extends AppCompatActivity {
 
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
-            launchWelcomeActivity();
+            launchMainActivity();
             finish();
         }
 
@@ -51,7 +51,6 @@ public class SelectLanguage extends AppCompatActivity {
                 String language = text_eng_lang.getText().toString();
                 Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 setLocale("en");
-                recreate();
                 startActivity(to_welcome);
             }
         });
@@ -63,7 +62,6 @@ public class SelectLanguage extends AppCompatActivity {
                 Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 //to_welcome.putExtra("mytext",language);
                 setLocale("hi");
-                recreate();
                 startActivity(to_welcome);
             }
         });
@@ -75,13 +73,12 @@ public class SelectLanguage extends AppCompatActivity {
                 Intent to_welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 //to_welcome.putExtra("mytext",language);
                 setLocale("te");
-                recreate();
                 startActivity(to_welcome);
             }
         });
     }
 
-    private void launchWelcomeActivity() {
+    private void launchMainActivity() {
         prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(SelectLanguage.this, MainActivity.class));
     }

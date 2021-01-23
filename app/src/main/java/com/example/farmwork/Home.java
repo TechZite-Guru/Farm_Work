@@ -1,44 +1,34 @@
 package com.example.farmwork;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -56,6 +46,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     String currentUserID;
     WorkerFragment workerFragment;
     CategoryAdapter categoryAdapter;
+    private String full_address, locality, postalcode, adminarea;
 
     private double latitude, longitude;
 
@@ -98,7 +89,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     private void detectCurrentLocation() {
         Toast.makeText(this, "Please wait, getting your Location", Toast.LENGTH_SHORT).show();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3600000, 1000, this);
     }
 
     @Override
@@ -115,13 +106,19 @@ public class Home extends AppCompatActivity implements LocationListener {
         try {
             addresses = geocoder.getFromLocation(latitude,longitude,1);
 
-            String full_address = addresses.get(0).getAddressLine(0);
+            full_address = addresses.get(0).getAddressLine(0);
+            locality = addresses.get(0).getLocality();
+            adminarea = addresses.get(0).getAdminArea();
+            postalcode = addresses.get(0).getPostalCode();
 
             if (full_address != null){
                 Map<String, Object> location = new HashMap<>();
                 location.put("location", full_address);
                 location.put("latitude", latitude);
                 location.put("longitude", longitude);
+                location.put("locality", locality);
+                location.put("adminarea", adminarea);
+                location.put("postalcode", postalcode);
                 fStore.collection("users").document(currentUserID).update(location).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -133,6 +130,13 @@ public class Home extends AppCompatActivity implements LocationListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setLocale(postalcode);
+    }
+
+    public void setLocale(String pin) {
+        SharedPreferences.Editor pincode = getSharedPreferences("PINCODE", MODE_PRIVATE).edit();
+        pincode.putString("User_Pin",postalcode);
+        pincode.apply();
     }
 
     @Override
@@ -165,5 +169,25 @@ public class Home extends AppCompatActivity implements LocationListener {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    int doubleBackToExitPressed = 1;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressed == 2) {
+            finishAffinity();
+            System.exit(0);
+        } else {
+            doubleBackToExitPressed++;
+            Toast.makeText(this, "Press Back again to Exit", Toast.LENGTH_SHORT).show();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressed = 1;
+            }
+        }, 2000);
     }
 }

@@ -1,16 +1,22 @@
 package com.example.farmwork;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +49,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
+    SwipeRefreshLayout swipeRefreshLayout;
     ImageView change_profile, change_username, phone_edit_icon;
     CircleImageView profile_pic;
     TextView profile_fullName, profile_email, profile_phone, full_address;
@@ -54,12 +61,14 @@ public class ProfileFragment extends Fragment {
     int i = 1;
     private static final int Gallery_pick = 1;
     private StorageReference storageReference;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        setHasOptionsMenu(true);
         profile_pic = root.findViewById(R.id.profile_pic);
         change_profile = root.findViewById(R.id.profile_pic_edit);
         change_username = root.findViewById(R.id.user_name_edit);
@@ -72,12 +81,21 @@ public class ProfileFragment extends Fragment {
         profile_update = root.findViewById(R.id.profile_update_button);
         logout_btn = root.findViewById(R.id.logout_button);
         full_address = root.findViewById(R.id.full_address);
+        swipeRefreshLayout = root.findViewById(R.id.swipeRefresh_profile);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         currentUserID = fAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference().child("Profile Image").child(currentUserID + ".jpg");
 
+        profileData();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                profileData();
+            }
+        });
 
         change_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,28 +158,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        DocumentReference documentReference = fStore.collection("users").document(currentUserID);
-        documentReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot != null) {
-                    profile_email.setText(documentSnapshot.getString("email"));
-                    profile_fullName.setText(documentSnapshot.getString("name"));
-                    profile_phone.setText(documentSnapshot.getString("phone"));
-                    full_address.setText(documentSnapshot.getString("location"));
-
-                    String profile_pic_string = documentSnapshot.getString("profile_image");
-                    Picasso.get().load(profile_pic_string).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_pic);
-                    Log.d("URL", "Download URL :" + profile_pic_string);
-                }
-            }
-        });
-
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fAuth.signOut();
-                startActivity(new Intent(getActivity(),LoginFragment.class));
+                startActivity(new Intent(getContext(),LoginFragment.class));
             }
         });
 
@@ -206,5 +207,54 @@ public class ProfileFragment extends Fragment {
                 });
             }
         }
+    }
+
+    public void profileData() {
+        DocumentReference documentReference = fStore.collection("users").document(currentUserID);
+        documentReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                swipeRefreshLayout.setRefreshing(false);
+                if (documentSnapshot != null) {
+                    profile_email.setText(documentSnapshot.getString("email"));
+                    profile_fullName.setText(documentSnapshot.getString("name"));
+                    profile_phone.setText(documentSnapshot.getString("phone"));
+                    full_address.setText(documentSnapshot.getString("location"));
+
+                    String profile_pic_string = documentSnapshot.getString("profile_image");
+                    Picasso.get().load(profile_pic_string).placeholder(R.drawable.profile_image_placeholder).into(profile_pic);
+                    Log.d("URL", "Download URL :" + profile_pic_string);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.actionbar_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_service);
+
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+    }
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.search_service){
+            return true;
+        }
+
+        if (id == R.id.lang_support){
+            PrefManager prefManager = new PrefManager(getContext());
+
+            // make first time launch TRUE
+            prefManager.setFirstTimeLaunch(true);
+
+            startActivity(new Intent(getContext(), SelectLanguage.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

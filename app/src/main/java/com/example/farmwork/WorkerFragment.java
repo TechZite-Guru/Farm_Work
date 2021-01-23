@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,18 +57,25 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class WorkerFragment extends Fragment implements CategoryAdapter.BookingPage {
 
     RecyclerView recyclerView;
     CategoryAdapter categoryAdapter;
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
-    ImageView prefix;
+    CircleImageView prefix;
     String currentUserID;
     SwipeRefreshLayout swipeRefreshLayout;
     BookingPage bookingPage;
+    String Name, p;
+    ProgressBar progressBar1;
     ProgressDialog pd;
+    Home home;
+    int position = 0;
 
+    List<String> suggestion_list = new ArrayList<>();
     List<WorkerViewModel> worker_list = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -75,13 +84,10 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         View root = inflater.inflate(R.layout.fragment_worker, container, false);
 
         setHasOptionsMenu(true);
-
         recyclerView = root.findViewById(R.id.recyclerview);
         prefix = root.findViewById(R.id.prefix);
         swipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         pd = new ProgressDialog(getContext());
-
-        //progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255, 161, 0), PorterDuff.Mode.SRC_ATOP);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -94,6 +100,12 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                 // Do not draw the divider
             }
         });
+
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("PINCODE", Context.MODE_PRIVATE);
+        p = preferences.getString("User_Pin", "");
+
+        Log.d("PINCODE", "" +p);
+
         pd.show();
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setContentView(R.layout.progress_dialog);
@@ -109,6 +121,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                 categoryAdapter.notifyDataSetChanged();
             }
         });
+
 
         //worker_fragment_back.getBackground().setAlpha(200);
         /*categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
@@ -128,20 +141,23 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
     }
 
     private void collectData() {
-        CollectionReference documentReference = fStore.collection("users");
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query collectionReference = fStore.collection("users").whereEqualTo("postalcode", p);
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 pd.dismiss();
                 swipeRefreshLayout.setRefreshing(false);
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        WorkerViewModel workerViewModel = new WorkerViewModel(documentSnapshot.getString("email"),
-                                documentSnapshot.getString("name"),
-                                documentSnapshot.getString("phone"),
-                                documentSnapshot.getString("location"),
-                                documentSnapshot.getString("profile_image"));
-                        worker_list.add(workerViewModel);
+                        if (documentSnapshot.exists()) {
+                            WorkerViewModel workerViewModel = new WorkerViewModel(documentSnapshot.getString("email"),
+                                    documentSnapshot.getString("name"),
+                                    documentSnapshot.getString("phone"),
+                                    documentSnapshot.getString("location"),
+                                    documentSnapshot.getString("profile_image"),
+                                    documentSnapshot.getId());
+                            worker_list.add(workerViewModel);
+                        }
                     }
 
                     categoryAdapter = new CategoryAdapter(worker_list, WorkerFragment.this);
@@ -183,23 +199,50 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         MenuItem menuItem = menu.findItem(R.id.search_service);
 
         SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search by Name, Place.....");
         searchView.setMaxWidth(Integer.MAX_VALUE);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 Toast.makeText(getContext(), "Going to searchData()", Toast.LENGTH_SHORT).show();
-                categoryAdapter.getFilter().filter(s);
+                if (!TextUtils.isEmpty(s)) {
+                    categoryAdapter.getFilter().filter(s);
+                    searchView.setQuery("", false);
+                    searchView.setIconifiedByDefault(true);
+                }
                 Toast.makeText(getContext(), "Came Out", Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                if (!TextUtils.isEmpty(newText)) {
+                    categoryAdapter.getFilter().filter(newText);
+                    //searchView.setQuery("", false);
+                    //searchView.setIconified(true);
+                }
                 return false;
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.search_service){
+            return true;
+        }
+
+        if (id == R.id.lang_support){
+            PrefManager prefManager = new PrefManager(getContext());
+
+            // make first time launch TRUE
+            prefManager.setFirstTimeLaunch(true);
+
+            startActivity(new Intent(getContext(), SelectLanguage.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /*public void searchData(String s) {

@@ -31,14 +31,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static java.lang.Double.parseDouble;
+
 public class BookingPage extends AppCompatActivity implements LocationListener {
 
     String name, location, profile_image;
     LocationManager mLocationManager;
-    ImageView profile_image_holder;
+    CircleImageView profile_image_holder;
     TextView distance_between, location_holder, name_holder;
     FirebaseFirestore fStore;
-    double lat1, long1;
+    private double lat1, long1;
+    private double myLatitude, myLongitude;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +71,11 @@ public class BookingPage extends AppCompatActivity implements LocationListener {
             name_holder.setText(workerViewModel.getName());
             location_holder.setText(workerViewModel.getLocation());
             Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_image_holder);
+            id = workerViewModel.getuId();
 
         }
     }
+
     private void detectCurrentLocation() {
         Toast.makeText(this, "Please wait, getting your Location", Toast.LENGTH_SHORT).show();
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -81,51 +89,61 @@ public class BookingPage extends AppCompatActivity implements LocationListener {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        double myLatitude = location.getLatitude();
-        double myLongitude = location.getLongitude();
-        findDistance(myLatitude, myLongitude);
+        myLatitude = location.getLatitude();
+        myLongitude = location.getLongitude();
+        findDistance();
     }
 
-    public void findDistance(double myLatitude, double myLongitude) {
+    public void findDistance() {
 
-        CollectionReference documentReference = fStore.collection("users");
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        DocumentReference docRef = fStore.collection("users").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
                         lat1 = documentSnapshot.getDouble("latitude");
                         long1 = documentSnapshot.getDouble("longitude");
+                        Log.d("Latitude","" +lat1);
+                        Log.d("Longitude","" +long1);
+                    } else {
+                        Log.d("TAG", "No such type of document");
                     }
                 } else {
-                    Log.d("ERROR", "Error getting documents: ", task.getException());
+                    Log.d("TAG", "get failed with ", task.getException());
                 }
             }
         });
 
-        Toast.makeText(this, "Latitude", Toast.LENGTH_SHORT).show();
+        if (lat1 != 0 && long1 != 0) {
 
-        double longDiff = myLongitude - long1;
+            double longDiff = myLongitude - long1;
 
-        double distance = Math.sin(deg2rad(myLatitude))
-                *Math.sin(deg2rad(lat1))
-                +Math.cos(deg2rad(myLatitude))
-                *Math.cos(deg2rad(lat1))
-                *Math.cos(deg2rad(longDiff));
+            double distance = Math.sin(deg2rad(myLatitude))
+                    *Math.sin(deg2rad(lat1))
+                    +Math.cos(deg2rad(myLatitude))
+                    *Math.cos(deg2rad(lat1))
+                    *Math.cos(deg2rad(longDiff));
 
-        distance = Math.acos(distance);
+            distance = Math.acos(distance);
 
-        distance = rad2deg(distance);
+            distance = rad2deg(distance);
 
-        distance = distance * 1.609344;
+            distance = distance * 60 * 1.1515;
 
-        distance_between.setText(String.format(Locale.US, "%2f KM", distance));
+            distance = distance * 1.609344;
 
+
+
+            distance_between.setText(String.format(Locale.US, "%2f Kilometers", distance));
+
+        }
     }
 
     private double rad2deg(double distance) {

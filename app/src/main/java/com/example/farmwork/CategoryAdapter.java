@@ -2,6 +2,7 @@ package com.example.farmwork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private List<WorkerViewModel> workerViewModelList;
     private List<WorkerViewModel> locationList;
-    private List<WorkerViewModel> getWorkerViewModelListFiltered;
+    private final List<WorkerViewModel> getWorkerViewModelListFiltered;
     BookingPage bookingPage;
     WorkerFragment workerFragment;
 
@@ -59,7 +60,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         WorkerViewModel workerViewModel = workerViewModelList.get(position);
 
-        Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(holder.tvprefix);
+        Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.profile_image_placeholder).into(holder.tvprefix);
         holder.tvname.setText(workerViewModel.getName());
         holder.tvlocation.setText(workerViewModel.getLocation());
 
@@ -92,17 +93,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             protected FilterResults performFiltering(CharSequence charSequence) {
                 FilterResults filterResults = new FilterResults();
 
-                if (charSequence == null | charSequence.length() == 0){
+                if (charSequence == null || charSequence.length() == 0){
                     filterResults.count = getWorkerViewModelListFiltered.size();
                     filterResults.values = getWorkerViewModelListFiltered;
 
                 }else {
                     String searchChr = charSequence.toString().toLowerCase();
                     List<WorkerViewModel> resultData = new ArrayList<>();
-                    //List<Sub_WorkerViewModel> resultData_sub = new ArrayList<>();
+                    //List<WorkerViewModel> resultData_sub = new ArrayList<>();
 
                     for (WorkerViewModel categoryModel: getWorkerViewModelListFiltered){
-                        if (categoryModel.getName().toLowerCase().contains(searchChr)) {
+                        if ((categoryModel.getName().toLowerCase().contains(searchChr)) || (categoryModel.getLocation().toLowerCase().contains(searchChr))) {
                             resultData.add(categoryModel);
                         }
                     }
