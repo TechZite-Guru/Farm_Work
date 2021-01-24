@@ -1,6 +1,10 @@
 package com.example.farmwork;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,6 +65,35 @@ public class MachineryFragment extends Fragment {
             prefManager.setFirstTimeLaunch(true);
 
             startActivity(new Intent(getContext(), SelectLanguage.class));
+        }
+
+        if (id == R.id.help) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            String phnumber = "+919398274873";
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Call Us");
+            alertDialog.setMessage("\n" +phnumber);
+            alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
+                    getContext().startActivity(callintent);
+                }
+            });
+            alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+
+            AlertDialog alert = alertDialog.create();
+            alert.show();
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+            pbutton.setTextColor(Color.WHITE);
+
         }
 
         return super.onOptionsItemSelected(item);

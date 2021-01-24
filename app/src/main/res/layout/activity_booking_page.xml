@@ -12,7 +12,7 @@
         android:layout_marginBottom="30dp"
         app:cardElevation="10dp"
         app:cardCornerRadius="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,13 +59,28 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/distance_between"
+                android:id="@+id/distance_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text=""
+                android:layout_marginTop="15dp"
+                android:text="@string/distance_from_you"
                 android:textColor="@color/text_grey"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/distance_between"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="10"
+                android:layout_marginTop="5dp"
+                android:background="@color/orange_500"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
 
             <Button
                 android:layout_width="match_parent"

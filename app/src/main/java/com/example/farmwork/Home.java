@@ -32,6 +32,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +50,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     private String full_address, locality, postalcode, adminarea;
 
     private double latitude, longitude;
+    private String lat, lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +91,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     private void detectCurrentLocation() {
         Toast.makeText(this, "Please wait, getting your Location", Toast.LENGTH_SHORT).show();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3600000, 1000, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 1000, this);
     }
 
     @Override
@@ -130,12 +132,19 @@ public class Home extends AppCompatActivity implements LocationListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setLocale(postalcode);
+        Log.d("LATITUDE_HOME", "" +latitude);
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.000000000000000");
+        lat = decimalFormat.format(latitude);
+        lon = decimalFormat.format(longitude);
+        setLocale(postalcode, lat, lon);
     }
 
-    public void setLocale(String pin) {
-        SharedPreferences.Editor pincode = getSharedPreferences("PINCODE", MODE_PRIVATE).edit();
-        pincode.putString("User_Pin",postalcode);
+    public void setLocale(String pin, String my_Latitude, String my_Longitude) {
+        SharedPreferences.Editor pincode = getSharedPreferences("Address", MODE_PRIVATE).edit();
+        pincode.putString("User_Pin",pin);
+        pincode.putString("User_Latitude", my_Latitude);
+        pincode.putString("User_Longitude", my_Longitude);
+        Log.d("LATITUDE_HOME", "" +my_Latitude);
         pincode.apply();
     }
 

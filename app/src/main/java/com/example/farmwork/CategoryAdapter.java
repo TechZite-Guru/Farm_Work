@@ -64,20 +64,47 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.tvname.setText(workerViewModel.getName());
         holder.tvlocation.setText(workerViewModel.getLocation());
 
+        double myLatitude = workerViewModel.getMylatitude();
+        double myLongitude = workerViewModel.getMylongitude();
 
-        /*holder.tvbook_now_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent to_booking_page = new Intent(holder.tvbook_now_btn.getContext(), BookingPage.class);
-                to_booking_page.putExtra("name", category_name);
-                to_booking_page.putExtra("location", location);
-                to_booking_page.putExtra("profile_image", prefix);
+        double lat1 = workerViewModel.getLatitude();
+        double long1 = workerViewModel.getLongitude();
 
-                to_booking_page.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                holder.tvbook_now_btn.getContext().startActivity(to_booking_page);
-            }
-        });*/
+        if (lat1 != 0 && long1 != 0) {
 
+            double longDiff = myLongitude - long1;
+
+            double distance = Math.sin(deg2rad(myLatitude))
+                    * Math.sin(deg2rad(lat1))
+                    + Math.cos(deg2rad(myLatitude))
+                    * Math.cos(deg2rad(lat1))
+                    * Math.cos(deg2rad(longDiff));
+
+            distance = Math.acos(distance);
+
+            distance = rad2deg(distance);
+
+            distance = distance * 60 * 1.1515;
+
+            distance = distance * 1.609344;
+
+            Log.d("Latitude","" +lat1);
+            Log.d("Longitude","" +long1);
+
+            Log.d("MyLatitude","" +myLatitude);
+            Log.d("MyLongitude","" +myLongitude);
+
+
+            holder.tvdistance.setText(String.format(Locale.US, "%2f KM", distance));
+        }
+    }
+
+    private double rad2deg(double distance) {
+        return (distance * 180.0 / Math.PI);
+    }
+
+    private double deg2rad(double myLatitude) {
+        return (myLatitude*Math.PI/180.0);
     }
 
     @Override

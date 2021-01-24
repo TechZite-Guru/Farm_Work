@@ -1,8 +1,13 @@
 package com.example.farmwork;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,17 +64,46 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         int id = item.getItemId();
 
-        if (id == R.id.search_service){
+        if (id == R.id.search_service) {
             return true;
         }
 
-        if (id == R.id.lang_support){
+        if (id == R.id.lang_support) {
             PrefManager prefManager = new PrefManager(getContext());
 
             // make first time launch TRUE
             prefManager.setFirstTimeLaunch(true);
 
             startActivity(new Intent(getContext(), SelectLanguage.class));
+        }
+
+        if (id == R.id.help) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            String phnumber = "+919398274873";
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Call Us");
+            alertDialog.setMessage("\n" +phnumber);
+            alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
+                    getContext().startActivity(callintent);
+                }
+            });
+            alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+
+            AlertDialog alert = alertDialog.create();
+            alert.show();
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+            pbutton.setTextColor(Color.WHITE);
+
         }
 
         return super.onOptionsItemSelected(item);

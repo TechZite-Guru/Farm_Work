@@ -1,7 +1,10 @@
 package com.example.farmwork;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -253,6 +256,35 @@ public class ProfileFragment extends Fragment {
             prefManager.setFirstTimeLaunch(true);
 
             startActivity(new Intent(getContext(), SelectLanguage.class));
+        }
+
+        if (id == R.id.help) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            String phnumber = "+919398274873";
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Call Us");
+            alertDialog.setMessage("\n" +phnumber);
+            alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
+                    getContext().startActivity(callintent);
+                }
+            });
+            alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+
+            AlertDialog alert = alertDialog.create();
+            alert.show();
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+            pbutton.setTextColor(Color.WHITE);
+
         }
 
         return super.onOptionsItemSelected(item);

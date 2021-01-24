@@ -1,8 +1,10 @@
 package com.example.farmwork;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -59,6 +63,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static java.lang.Double.parseDouble;
+
 public class WorkerFragment extends Fragment implements CategoryAdapter.BookingPage {
 
     RecyclerView recyclerView;
@@ -74,6 +80,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
     ProgressDialog pd;
     Home home;
     int position = 0;
+    private double myLatitude, myLongitude;
 
     List<String> suggestion_list = new ArrayList<>();
     List<WorkerViewModel> worker_list = new ArrayList<>();
@@ -101,10 +108,13 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
             }
         });
 
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("PINCODE", Context.MODE_PRIVATE);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("Address", Context.MODE_PRIVATE);
         p = preferences.getString("User_Pin", "");
+        myLatitude = parseDouble(preferences.getString("User_Latitude", ""));
+        myLongitude = parseDouble(preferences.getString("User_Longitude", ""));
 
-        Log.d("PINCODE", "" +p);
+        Log.d("PINCODE", "" + p);
+        Log.d("LATITUDE", "" + myLatitude);
 
         pd.show();
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -138,6 +148,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
             }
         });*/
         return root;
+
     }
 
     private void collectData() {
@@ -155,7 +166,9 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                                     documentSnapshot.getString("phone"),
                                     documentSnapshot.getString("location"),
                                     documentSnapshot.getString("profile_image"),
-                                    documentSnapshot.getId());
+                                    documentSnapshot.getDouble("latitude"),
+                                    documentSnapshot.getDouble("longitude"),
+                                    documentSnapshot.getId(), myLatitude, myLongitude);
                             worker_list.add(workerViewModel);
                         }
                     }
@@ -242,95 +255,35 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
             startActivity(new Intent(getContext(), SelectLanguage.class));
         }
 
-        return super.onOptionsItemSelected(item);
-    }
+        if (id == R.id.help) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            String phnumber = "+919398274873";
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Call Us");
+            alertDialog.setMessage("\n" +phnumber);
+            alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
+                    getContext().startActivity(callintent);
+                }
+            });
+            alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
 
-    /*public void searchData(String s) {
-        fStore = FirebaseFirestore.getInstance();
-        CollectionReference collectionReference = fStore.collection("users");
-        Query query = collectionReference.whereEqualTo("search_name", s.toLowerCase());
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                Toast.makeText(getContext(), "In searchData()", Toast.LENGTH_SHORT).show();
+            AlertDialog alert = alertDialog.create();
+            alert.show();
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+            pbutton.setTextColor(Color.WHITE);
 
-                recyclerView.setVisibility(View.GONE);
-                recyclerView2.setVisibility(View.VISIBLE);
-                recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView2.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL) {
-                    @Override
-                    public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
-                        // Do not draw the divider
-                    }
-                });
-                FirestoreRecyclerOptions<WorkerViewModel> options =
-                        new FirestoreRecyclerOptions.Builder<WorkerViewModel>()
-                                .setQuery(FirebaseFirestore.getInstance().collection("users"), WorkerViewModel.class)
-                                .build();
-
-                Toast.makeText(getContext(), "Success Search :" +s, Toast.LENGTH_SHORT).show();
-
-                //categoryAdapter = new CategoryAdapter();
-                recyclerView2.setAdapter(categoryAdapter);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Failed Search", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        /*query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        Toast.makeText(getContext(), "In searchData()", Toast.LENGTH_SHORT).show();
-
-                        recyclerView.setVisibility(View.GONE);
-                        recyclerView2.setVisibility(View.VISIBLE);
-                        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
-                        recyclerView2.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL) {
-                            @Override
-                            public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
-                                // Do not draw the divider
-                            }
-                        });
-                        FirestoreRecyclerOptions<WorkerViewModel> options =
-                                new FirestoreRecyclerOptions.Builder<WorkerViewModel>()
-                                        .setQuery(FirebaseFirestore.getInstance().collection("users"), WorkerViewModel.class)
-                                        .build();
-
-                        Toast.makeText(getContext(), "Success Search :" +s, Toast.LENGTH_SHORT).show();
-
-                        categoryAdapter = new CategoryAdapter(options);
-                        recyclerView2.setAdapter(categoryAdapter);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Failed Search", Toast.LENGTH_SHORT).show();
-                    }
-                });*/
-
-    /*@Override
-    public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-
-    }
-
-    /*@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        for (int i=0; i<names.length; i++){
-            String a = names[i];
-            for (int j=i; j<logos.length; j++){
-                int b = logos[j];
-                category_list.add(new WorkerViewModel(b, a));
-                break;
-            }
         }
 
-
-    }*/
+        return super.onOptionsItemSelected(item);
+    }
 }
