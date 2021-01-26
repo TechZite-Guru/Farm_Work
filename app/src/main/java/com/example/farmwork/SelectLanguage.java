@@ -80,7 +80,7 @@ public class SelectLanguage extends AppCompatActivity {
 
     private void launchMainActivity() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(SelectLanguage.this, MainActivity.class));
+        startActivity(new Intent(SelectLanguage.this, LoginActivity.class));
     }
 
     private void setLocale(String lang){

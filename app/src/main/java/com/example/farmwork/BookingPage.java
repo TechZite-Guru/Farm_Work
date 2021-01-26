@@ -69,7 +69,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener {
         if (intent.getExtras() != null){
             WorkerViewModel workerViewModel = (WorkerViewModel) intent.getSerializableExtra("data");
             name_holder.setText(workerViewModel.getName());
-            location_holder.setText(workerViewModel.getLocation());
+            location_holder.setText(workerViewModel.getLocality());
             Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_image_holder);
             id = workerViewModel.getuId();
 
@@ -89,7 +89,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 100, this);
     }
 
     @Override

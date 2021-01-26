@@ -38,6 +38,8 @@
     <string name="re_type_password" translatable="false">Re-type Password</string>
     <string name="your_name" translatable="false">Full Name</string>
     <string name="title_profile" translatable="false">Profile</string>
-    <string name="title_booking">Booking</string>
-    <string name="distance_from_you">Distance from You</string>
+    <string name="title_booking" translatable="false">Booking</string>
+    <string name="distance_from_you" translatable="false">Distance from You</string>
+    <string name="phone_number" translatable="false">Phone Number</string>
+    <string name="otp" translatable="false">OTP</string>
 </resources>

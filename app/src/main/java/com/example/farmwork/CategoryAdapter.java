@@ -62,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.profile_image_placeholder).into(holder.tvprefix);
         holder.tvname.setText(workerViewModel.getName());
-        holder.tvlocation.setText(workerViewModel.getLocation());
+        holder.tvlocation.setText(workerViewModel.getLocality()+", "+workerViewModel.getAdminarea());
 
         double myLatitude = workerViewModel.getMylatitude();
         double myLongitude = workerViewModel.getMylongitude();
@@ -95,7 +95,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Log.d("MyLongitude","" +myLongitude);
 
 
-            holder.tvdistance.setText(String.format(Locale.US, "%2f KM", distance));
+            holder.tvdistance.setText(String.format("%2f KM", distance));
         }
     }
 
@@ -130,7 +130,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     //List<WorkerViewModel> resultData_sub = new ArrayList<>();
 
                     for (WorkerViewModel categoryModel: getWorkerViewModelListFiltered){
-                        if ((categoryModel.getName().toLowerCase().contains(searchChr)) || (categoryModel.getLocation().toLowerCase().contains(searchChr))) {
+                        if ((categoryModel.getName().toLowerCase().contains(searchChr)) || (categoryModel.getLocality().toLowerCase().contains(searchChr))) {
                             resultData.add(categoryModel);
                         }
                     }

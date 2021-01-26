@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +44,9 @@ public class HomeFragment extends Fragment {
     public RecyclerView recyclerView;
     Toolbar toolbar;
     CategoryAdapter categoryAdapter;
+    CarouselView carouselView;
+
+    int[] sampleImages = {R.drawable.farmland, R.drawable.worker, R.drawable.machinery};
 
     List<HomeViewModel> category_list = new ArrayList<>();
 
@@ -49,8 +56,20 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
 
+        carouselView = root.findViewById(R.id.carouselView);
+        carouselView.setPageCount(sampleImages.length);
+
+        carouselView.setImageListener(imageListener);
         return root;
     }
+
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sampleImages[position]);
+        }
+    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
@@ -78,34 +97,38 @@ public class HomeFragment extends Fragment {
         }
 
         if (id == R.id.help) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-            String phnumber = "+919398274873";
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle("Call Us");
-            alertDialog.setMessage("\n" +phnumber);
-            alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
-                    getContext().startActivity(callintent);
-                }
-            });
-            alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
-            });
 
-            AlertDialog alert = alertDialog.create();
-            alert.show();
-            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-            pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
-            pbutton.setTextColor(Color.WHITE);
-
+            contactAlertDialog();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void contactAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        String phnumber = "+919398274873";
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Call Us");
+        alertDialog.setMessage(phnumber);
+        alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
+                getContext().startActivity(callintent);
+            }
+        });
+        alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+        pbutton.setTextColor(Color.WHITE);
     }
 }

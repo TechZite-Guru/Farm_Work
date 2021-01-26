@@ -16,13 +16,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:windowSoftInputMode="stateVisible|adjustPan"
-        android:theme="@style/Theme.FarmWork">
-        <activity android:name=".BookingPage"></activity>
+        android:theme="@style/Theme.FarmWork"
+        android:windowSoftInputMode="stateVisible|adjustPan">
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".BookingPage" />
         <activity
             android:name=".Home"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/title_activity_home" />
+            android:label="@string/title_activity_home"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,8 +35,11 @@
             android:name=".SelectLanguage"
             android:theme="@style/Theme_No_ActionBar" />
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.FarmWork" />
+            android:name=".LoginActivity"
+            android:theme="@style/Theme_No_ActionBar" />
+        <activity
+            android:name=".OtpActivity"
+            android:theme="@style/Theme_No_ActionBar" />
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/Theme_No_ActionBar" />

@@ -41,7 +41,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -81,6 +80,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
     Home home;
     int position = 0;
     private double myLatitude, myLongitude;
+    private String lat1, long1;
 
     List<String> suggestion_list = new ArrayList<>();
     List<WorkerViewModel> worker_list = new ArrayList<>();
@@ -108,18 +108,20 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
             }
         });
 
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("Address", Context.MODE_PRIVATE);
-        p = preferences.getString("User_Pin", "");
-        myLatitude = parseDouble(preferences.getString("User_Latitude", ""));
-        myLongitude = parseDouble(preferences.getString("User_Longitude", ""));
-
-        Log.d("PINCODE", "" + p);
-        Log.d("LATITUDE", "" + myLatitude);
-
         pd.show();
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setContentView(R.layout.progress_dialog);
         pd.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("Address", Context.MODE_PRIVATE);
+        p = preferences.getString("User_Pin", "");
+        lat1 = preferences.getString("User_Latitude", "");
+        long1 = preferences.getString("User_Longitude", "");
+
+        myLatitude = parseDouble(lat1);
+        myLongitude = parseDouble(long1);
+
+        Log.d("PINCODE", "" + p);
+        Log.d("LATITUDE", "" + myLatitude);
         collectData();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -164,7 +166,8 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                             WorkerViewModel workerViewModel = new WorkerViewModel(documentSnapshot.getString("email"),
                                     documentSnapshot.getString("name"),
                                     documentSnapshot.getString("phone"),
-                                    documentSnapshot.getString("location"),
+                                    documentSnapshot.getString("adminarea"),
+                                    documentSnapshot.getString("locality"),
                                     documentSnapshot.getString("profile_image"),
                                     documentSnapshot.getDouble("latitude"),
                                     documentSnapshot.getDouble("longitude"),
@@ -256,34 +259,36 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         }
 
         if (id == R.id.help) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-            String phnumber = "+919398274873";
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle("Call Us");
-            alertDialog.setMessage("\n" +phnumber);
-            alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
-                    getContext().startActivity(callintent);
-                }
-            });
-            alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
-            });
-
-            AlertDialog alert = alertDialog.create();
-            alert.show();
-            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-            pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
-            pbutton.setTextColor(Color.WHITE);
-
+            contactAlertDialog();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void contactAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        String phnumber = "+919398274873";
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Call Us");
+        alertDialog.setMessage(phnumber);
+        alertDialog.setPositiveButton("   CALL   ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent callintent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phnumber, null));
+                getContext().startActivity(callintent);
+            }
+        });
+        alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+        pbutton.setTextColor(Color.WHITE);
     }
 }

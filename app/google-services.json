@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "421958165398-da0394cca73an6g127a7te15kckp43cv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.farmwork",
+            "certificate_hash": "365ee0b6789d3deeee9e54cd97295bb3026928b2"
+          }
+        },
+        {
           "client_id": "421958165398-nu8e3mr24sn33sbhcnp9h3nl1v6mvnqa.apps.googleusercontent.com",
           "client_type": 3
         }
