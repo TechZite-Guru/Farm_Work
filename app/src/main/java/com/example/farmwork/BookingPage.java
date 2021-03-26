@@ -112,6 +112,32 @@ public class BookingPage extends AppCompatActivity implements LocationListener {
                         long1 = documentSnapshot.getDouble("longitude");
                         Log.d("Latitude","" +lat1);
                         Log.d("Longitude","" +long1);
+                        Log.d("Distance0",":"+distance_between);
+
+                        if (lat1 != 0 && long1 != 0) {
+
+                            double longDiff = myLongitude - long1;
+
+                            double distance = Math.sin(deg2rad(myLatitude))
+                                    *Math.sin(deg2rad(lat1))
+                                    +Math.cos(deg2rad(myLatitude))
+                                    *Math.cos(deg2rad(lat1))
+                                    *Math.cos(deg2rad(longDiff));
+
+                            distance = Math.acos(distance);
+
+                            distance = rad2deg(distance);
+
+                            distance *= 60 * 1.1515;
+
+                            distance *= 1.609344;
+
+
+
+                            distance_between.setText(String.format(Locale.US, "%2f KM", distance));
+                            Log.d("Distance",":"+distance_between);
+
+                        }
                     } else {
                         Log.d("TAG", "No such type of document");
                     }
@@ -120,30 +146,6 @@ public class BookingPage extends AppCompatActivity implements LocationListener {
                 }
             }
         });
-
-        if (lat1 != 0 && long1 != 0) {
-
-            double longDiff = myLongitude - long1;
-
-            double distance = Math.sin(deg2rad(myLatitude))
-                    *Math.sin(deg2rad(lat1))
-                    +Math.cos(deg2rad(myLatitude))
-                    *Math.cos(deg2rad(lat1))
-                    *Math.cos(deg2rad(longDiff));
-
-            distance = Math.acos(distance);
-
-            distance = rad2deg(distance);
-
-            distance = distance * 60 * 1.1515;
-
-            distance = distance * 1.609344;
-
-
-
-            distance_between.setText(String.format(Locale.US, "%2f Kilometers", distance));
-
-        }
     }
 
     private double rad2deg(double distance) {

@@ -66,6 +66,11 @@ public class LoginActivity extends AppCompatActivity {
         send_otp = findViewById(R.id.request_otp);
         pd = new ProgressDialog(this);
 
+        if (fAuth.getCurrentUser() != null) {
+            Log.d("ALREADY_LOGIN", "LOGIN Success with Phone Verification");
+            startActivity(new Intent(LoginActivity.this, Home.class));
+        }
+
         send_otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
