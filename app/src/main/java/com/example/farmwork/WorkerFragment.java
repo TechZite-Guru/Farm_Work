@@ -74,7 +74,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
     String currentUserID;
     SwipeRefreshLayout swipeRefreshLayout;
     BookingPage bookingPage;
-    String Name, p;
+    String Name, p, worker_role = "Worker";
     ProgressBar progressBar1;
     ProgressDialog pd;
     Home home;
@@ -154,7 +154,7 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
     }
 
     private void collectData() {
-        Query collectionReference = fStore.collection("users").whereEqualTo("postalcode", p);
+        Query collectionReference = fStore.collection("users").whereEqualTo("postalcode", p).whereEqualTo("roles", worker_role);
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -163,7 +163,8 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         if (documentSnapshot.exists()) {
-                            WorkerViewModel workerViewModel = new WorkerViewModel(documentSnapshot.getString("email"),
+                            WorkerViewModel workerViewModel = new WorkerViewModel(
+                                    documentSnapshot.getString("email"),
                                     documentSnapshot.getString("name"),
                                     documentSnapshot.getString("phone"),
                                     documentSnapshot.getString("adminarea"),
@@ -171,7 +172,10 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                                     documentSnapshot.getString("profile_image"),
                                     documentSnapshot.getDouble("latitude"),
                                     documentSnapshot.getDouble("longitude"),
-                                    documentSnapshot.getId(), myLatitude, myLongitude);
+                                    documentSnapshot.getString("fare"),
+                                    documentSnapshot.getId(),
+                                    myLatitude,
+                                    myLongitude);
                             worker_list.add(workerViewModel);
                         }
                     }

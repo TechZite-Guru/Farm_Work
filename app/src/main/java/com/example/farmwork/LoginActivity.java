@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     DocumentReference documentReference;
     ProgressDialog pd;
     String userId;
-    private String phone;
+    private String phone, ph_number;
     private String codeSent;
 
     @Override
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         user_phone = findViewById(R.id.et_phone);
-        otp = findViewById(R.id.et_otp);
+        //otp = findViewById(R.id.et_otp);
 
         login_but = findViewById(R.id.btn_login);
         send_otp = findViewById(R.id.request_otp);
@@ -172,8 +172,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void sendVerificationCode() {
-
-        phone = user_phone.getText().toString().trim();
+        String india_code = "+91";
+        ph_number = user_phone.getText().toString().trim();
+        phone = india_code+ph_number;
+        Toast.makeText(getApplicationContext(), phone, Toast.LENGTH_LONG).show();
         if (phone.isEmpty()) {
             user_phone.setError("Phone Number Required");
             user_phone.requestFocus();

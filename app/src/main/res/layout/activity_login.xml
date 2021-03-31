@@ -43,20 +43,36 @@
                 android:textStyle="bold"
                 android:layout_gravity="center" />
 
-            <EditText
-                android:id="@+id/et_phone"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/phone_number"
-                android:padding="15dp"
-                android:inputType="phone"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginRight="20dp"
-                android:fontFamily="@font/roboto_regular"
-                android:layout_below="@id/tv_subtitle"
-                android:background="@drawable/et_custom"
-                android:textSize="15sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="  +91  "
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:background="@drawable/et_custom"/>
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/phone_number"
+                    android:padding="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:inputType="phone"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@drawable/et_custom"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/request_otp"
                 android:layout_width="match_parent"
@@ -72,39 +88,6 @@
                 android:text="GET OTP"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
-
-            <EditText
-                android:id="@+id/et_otp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
-                android:layout_below="@id/request_otp"
-                android:background="@drawable/et_custom"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/otp"
-                android:inputType="textPassword"
-                android:padding="15dp"
-                android:textSize="15sp"
-                android:visibility="gone"/>
-
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/et_otp"
-                android:background="@drawable/btn_custom"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@android:color/white"
-                android:text="@string/login"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
 
         </LinearLayout>
 

@@ -63,6 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.profile_image_placeholder).into(holder.tvprefix);
         holder.tvname.setText(workerViewModel.getName());
         holder.tvlocation.setText(workerViewModel.getLocality()+", "+workerViewModel.getAdminarea());
+        holder.tvworker_fare.setText(workerViewModel.getFare()+"/-"+"  PER DAY");
 
         double myLatitude = workerViewModel.getMylatitude();
         double myLongitude = workerViewModel.getMylongitude();
@@ -156,7 +157,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public class CategoryAdapterVh extends RecyclerView.ViewHolder {
         View view;
-        Button tvbook_now_btn;
+        Button tvbook_now_btn, tvworker_fare;
         ImageView tvprefix;
         TextView tvname, tvlocation, tvdistance;
         CardView tvcardView;
@@ -168,6 +169,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             tvprefix = itemView.findViewById(R.id.prefix);
             tvname = itemView.findViewById(R.id.name);
             tvdistance = itemView.findViewById(R.id.distance);
+            tvworker_fare = itemView.findViewById(R.id.worker_fare_amount);
             tvlocation = itemView.findViewById(R.id.location);
             tvcategory_row = itemView.findViewById(R.id.category_row);
             tvcardView = itemView.findViewById(R.id.cardView);

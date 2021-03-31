@@ -42,4 +42,7 @@
     <string name="distance_from_you" translatable="false">Distance from You</string>
     <string name="phone_number" translatable="false">Phone Number</string>
     <string name="otp" translatable="false">OTP</string>
+    <string name="select_who_you_are" translatable="false">Select who you are:</string>
+    <string name="farmer" translatable="false">Farmer</string>
+    <string name="worker" translatable="false">Worker</string>
 </resources>

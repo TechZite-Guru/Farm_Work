@@ -18,6 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FarmWork"
         android:windowSoftInputMode="stateVisible|adjustPan">
+        <activity android:name=".WorkerBookedHistory"></activity>
+        <activity android:name=".Booking_Details" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".BookingPage" />
         <activity

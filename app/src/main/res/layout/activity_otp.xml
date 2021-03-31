@@ -39,38 +39,6 @@
                 android:layout_gravity="center" />
 
             <EditText
-                android:id="@+id/et_phone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/phone_number"
-                android:padding="15dp"
-                android:inputType="phone"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
-                android:fontFamily="@font/roboto_regular"
-                android:layout_below="@id/tv_subtitle"
-                android:background="@drawable/et_custom"
-                android:visibility="gone"
-                android:textSize="15sp" />
-            <Button
-                android:id="@+id/request_otp"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/btn_custom"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_gravity="center"
-                android:layout_below="@id/et_phone"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@android:color/white"
-                android:text="GET OTP"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
-
-            <EditText
                 android:id="@+id/et_otp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

@@ -16,6 +16,7 @@ public class WorkerViewModel extends ViewModel implements Serializable {
     private String uId;
     private String email;
     private String postalcode;
+    private String fare;
     private double latitude, longitude;
     private double mylatitude, mylongitude;
 
@@ -23,7 +24,7 @@ public class WorkerViewModel extends ViewModel implements Serializable {
         this.postalcode = postalcode;
     }
 
-    public WorkerViewModel(String email, String name, String phone, String adminarea, String locality, String profile_image, double latitude, double longitude, String uid, double mylatitude, double mylongitude){
+    public WorkerViewModel(String email, String name, String phone, String adminarea, String locality, String profile_image, double latitude, double longitude, String fare, String uid, double mylatitude, double mylongitude){
         this.profile_image = profile_image;
         this.name = name;
         this.adminarea = adminarea;
@@ -33,6 +34,7 @@ public class WorkerViewModel extends ViewModel implements Serializable {
         this.email = email;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.fare = fare;
         this.mylatitude = mylatitude;
         this.mylongitude = mylongitude;
     }
@@ -50,6 +52,8 @@ public class WorkerViewModel extends ViewModel implements Serializable {
     public String getLocality() { return locality; }
 
     public String getuId() { return uId; }
+
+    public String getFare() { return fare; }
 
     public double getLatitude() { return latitude; }
 

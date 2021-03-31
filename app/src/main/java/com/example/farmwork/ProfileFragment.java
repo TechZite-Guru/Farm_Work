@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     ImageView change_profile, change_username, phone_edit_icon;
     CircleImageView profile_pic;
-    TextView profile_fullName, profile_email, profile_phone, full_address;
+    TextView profile_fullName, profile_email, profile_phone, full_address, role_title;
     EditText username_change_field, add_phone_field;
     Button profile_update, logout_btn;
     FirebaseAuth fAuth;
@@ -76,7 +76,8 @@ public class ProfileFragment extends Fragment {
         change_profile = root.findViewById(R.id.profile_pic_edit);
         change_username = root.findViewById(R.id.user_name_edit);
         username_change_field = root.findViewById(R.id.edit_username_field);
-        profile_email = root.findViewById(R.id.user_email);
+        //profile_email = root.findViewById(R.id.user_email);
+        role_title = root.findViewById(R.id.role_title);
         profile_fullName = root.findViewById(R.id.user_name);
         profile_phone = root.findViewById(R.id.user_phone);
         phone_edit_icon = root.findViewById(R.id.phone_edit);
@@ -219,7 +220,8 @@ public class ProfileFragment extends Fragment {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 swipeRefreshLayout.setRefreshing(false);
                 if (documentSnapshot != null) {
-                    profile_email.setText(documentSnapshot.getString("email"));
+                    //profile_email.setText(documentSnapshot.getString("email"));
+                    role_title.setText(documentSnapshot.getString("roles"));
                     profile_fullName.setText(documentSnapshot.getString("name"));
                     profile_phone.setText(documentSnapshot.getString("phone"));
                     full_address.setText(documentSnapshot.getString("location"));

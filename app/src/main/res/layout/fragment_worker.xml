@@ -24,11 +24,7 @@
         android:scrollbarStyle="outsideOverlay"
         android:fadeScrollbars="true"
         android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@color/orange_500"
-        android:paddingTop="0dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="0dp"/>
+        android:scrollbarThumbVertical="@color/orange_500" />
 
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
