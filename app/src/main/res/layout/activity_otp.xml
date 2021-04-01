@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Enter OTP"
+                android:text="@string/enter_otp"
                 android:textSize="35sp"
                 android:textStyle="bold"
                 android:layout_gravity="center" />

@@ -157,20 +157,35 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void storeUserData() {
-            //Storing User data in Cloud FIRESTORE
-            //registerProgress.setVisibility(View.INVISIBLE);
-            Map<String, Object> user = new HashMap<>();
-            user.put("name", register_fullName);
-            //user.put("email", register_email);
-            user.put("phone", register_phone);
-            user.put("roles", role);
-            user.put("search_name", search_name);
-            user.put("random_string", random_string_generated);
-            Log.d("Random String : ", random_string_generated);
-            if (role.equals("Worker")){
-                user.put("fare", fare_amount);
+        //Storing User data in Cloud FIRESTORE
+        //registerProgress.setVisibility(View.INVISIBLE);
+        Map<String, Object> user = new HashMap<>();
+        user.put("name", register_fullName);
+        //user.put("email", register_email);
+        user.put("phone", register_phone);
+        user.put("roles", role);
+        user.put("search_name", search_name);
+        user.put("random_string", random_string_generated);
+        Log.d("Random String : ", random_string_generated);
+        if (role.equals("Worker")){
+            user.put("fare", fare_amount);
+        }
+        fStore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("User Data", "User Data Upload Success");
             }
-            fStore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "User Data Upload UnSuccess");
+            }
+        });
+
+        if (role.equals("Worker")) {
+            Map<String, Object> date = new HashMap<>();
+            date.put("booking_date", "10/12/1999");
+            fStore.collection("Worker").document(userID).collection("BookedBy").document("test").set(date).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d("User Data", "User Data Upload Success");
@@ -181,13 +196,14 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d("User Data", "User Data Upload UnSuccess");
                 }
             });
+        }
 
-            Toast.makeText(getApplicationContext(), "Your Account has been Created", Toast.LENGTH_SHORT).show();
-            Log.d("User_Success", "createUserWithEmail:success");
+        Toast.makeText(getApplicationContext(), "Your Account has been Created", Toast.LENGTH_SHORT).show();
+        Log.d("User_Success", "createUserWithEmail:success");
 
-            //Toast after successfull account creation
+        //Toast after successfull account creation
 
-            Intent to_login = new Intent(RegisterActivity.this, Home.class);
-            startActivity(to_login);
+        Intent to_login = new Intent(RegisterActivity.this, Home.class);
+        startActivity(to_login);
     }
 }

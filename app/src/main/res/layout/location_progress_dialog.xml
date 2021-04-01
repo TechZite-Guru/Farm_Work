@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/getting_data"
+        android:text="@string/locating_you"
         android:textSize="17sp"
         android:layout_marginTop="10dp"
         android:textColor="@color/text_grey"/>

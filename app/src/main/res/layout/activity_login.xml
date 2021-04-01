@@ -85,7 +85,7 @@
                 android:layout_below="@id/et_phone"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@android:color/white"
-                android:text="GET OTP"
+                android:text="@string/get_otp"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 

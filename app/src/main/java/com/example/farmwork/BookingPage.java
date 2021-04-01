@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -65,6 +66,7 @@ import static java.lang.Double.parseDouble;
 
 public class BookingPage extends AppCompatActivity implements LocationListener, DatesAdapter.Booking_Details {
 
+    SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView_7;
     String name, location, profile_image;
     Button book, to_details_btn;
@@ -76,7 +78,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
     FirebaseFirestore fStore;
     private double lat1, long1;
     private double myLatitude, myLongitude;
-    private String id, date_now;
+    private String id, date_now, username;
     String a, b;
     DatesAdapter datesAdapter;
     ProgressDialog pd;
@@ -94,6 +96,10 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
         distance_between = findViewById(R.id.distance_between);
         pd = new ProgressDialog(this);
 
+        pd.show();
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setContentView(R.layout.progress_dialog);
+        //pd.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         recyclerView_7 = findViewById(R.id.next_7_days);
         recyclerView_7.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_7.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL) {
@@ -104,6 +110,17 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
         });
         to_details_btn = findViewById(R.id.bookbtn_todetails);
 
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh_availability);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                dates_list.clear();
+                pd.dismiss();
+                generateDates();
+                datesAdapter.notifyDataSetChanged();
+            }
+        });
 
         //linearLayout = findViewById(R.id.linear_layout_listitem);
         //linearLayout.getBackground().setAlpha(29);
@@ -121,6 +138,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
         if (intent.getExtras() != null) {
             WorkerViewModel workerViewModel = (WorkerViewModel) intent.getSerializableExtra("data");
             name_holder.setText(workerViewModel.getName());
+            username = workerViewModel.getName();
             location_holder.setText(workerViewModel.getLocality());
             Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_image_holder);
             id = workerViewModel.getuId();
@@ -128,24 +146,30 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
 
         }
 
-        //dates_list.add(new DatesViewModel("DATES", "ID"));
+        generateDates();
 
+        //dates_list.add(new DatesViewModel("DATES", "ID"));
+    }
+
+    public void generateDates() {
         for (int j = 1; j <= 7; j++) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy, EEEE");
             Calendar currentCal = Calendar.getInstance();
             String currentdate = dateFormat.format(currentCal.getTime());
             currentCal.add(Calendar.DATE, j);
             String toDate = dateFormat.format(currentCal.getTime());
-            getDates(toDate, j);
+            getDates(toDate);
         }
     }
 
-    public void getDates(String date, int j) {
+    public void getDates(String date) {
 
         fStore.collection("Worker").document(id).collection("BookedBy").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        pd.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
                         if (task.isSuccessful()) {
                             int k = 0;
                             int count = 0;
@@ -205,15 +229,6 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
                         } else {
                             Log.d("TAG2", "Error getting documents: ", task.getException());
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        DatesViewModel datesViewModel = new DatesViewModel(date, id);
-                        dates_list.add(datesViewModel);
-                        datesAdapter = new DatesAdapter(dates_list, BookingPage.this);
-                        recyclerView_7.setAdapter(datesAdapter);
                     }
                 });
         /*Query collectionReference = fStore.collection("Worker").document(id).collection("BookedBy").whereNotEqualTo("booking_date", date);
@@ -323,6 +338,9 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
 
     @Override
     public void bookingDetails(DatesViewModel datesViewModel) {
-        startActivity(new Intent(this, Booking_Details.class).putExtra("date", datesViewModel));
+        Intent i = new Intent(this, Booking_Details.class);
+        i.putExtra("date", datesViewModel);
+        i.putExtra("name", username);
+        startActivity(i);
     }
 }

@@ -90,7 +90,7 @@
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/black"
                 android:letterSpacing="0"
-                android:text="400/- 1 Day"
+                android:text="@string/_400_1_day"
                 android:textStyle="bold"
                 android:textSize="17dp" />
 
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:letterSpacing="0"
-                android:text="Book"
+                android:text="@string/book"
                 android:textStyle="bold"
                 android:textSize="17dp" />
 

@@ -14,6 +14,8 @@ import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -96,43 +98,64 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         swipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         pd = new ProgressDialog(getContext());
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        currentUserID = fAuth.getCurrentUser().getUid();
+        boolean check=checkConnection();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL) {
-            @Override
-            public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
-                // Do not draw the divider
-            }
-        });
+        if(check == true){
+            fAuth = FirebaseAuth.getInstance();
+            fStore = FirebaseFirestore.getInstance();
+            currentUserID = fAuth.getCurrentUser().getUid();
 
-        pd.show();
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setContentView(R.layout.progress_dialog);
-        pd.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("Address", Context.MODE_PRIVATE);
-        p = preferences.getString("User_Pin", "");
-        lat1 = preferences.getString("User_Latitude", "");
-        long1 = preferences.getString("User_Longitude", "");
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL) {
+                @Override
+                public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+                    // Do not draw the divider
+                }
+            });
 
-        myLatitude = parseDouble(lat1);
-        myLongitude = parseDouble(long1);
+            //pd.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            SharedPreferences preferences = this.getActivity().getSharedPreferences("Address", Context.MODE_PRIVATE);
+            if (preferences.getString("User_Pin", "") != null && preferences.getString("User_Latitude", "") != null && preferences.getString("User_Longitude", "") != null) {
 
-        Log.d("PINCODE", "" + p);
-        Log.d("LATITUDE", "" + myLatitude);
-        collectData();
+                pd.show();
+                pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                pd.setContentView(R.layout.progress_dialog);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                worker_list.clear();
-                pd.dismiss();
+                p = preferences.getString("User_Pin", "");
+                lat1 = preferences.getString("User_Latitude", "");
+                long1 = preferences.getString("User_Longitude", "");
+
+                myLatitude = parseDouble(lat1);
+                myLongitude = parseDouble(long1);
+
+                Log.d("PINCODE", "" + p);
+                Log.d("LATITUDE", "" + myLatitude);
                 collectData();
-                categoryAdapter.notifyDataSetChanged();
             }
-        });
+
+            else {
+                pd.show();
+                pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                pd.setContentView(R.layout.location_progress_dialog);
+            }
+
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    worker_list.clear();
+                    pd.dismiss();
+                    collectData();
+                    categoryAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+        else{
+
+
+            Toast.makeText(getActivity(), "Failed to connect to internet.", Toast.LENGTH_LONG).show();
+            networkErrorAlertDialog();
+        }
 
 
         //worker_fragment_back.getBackground().setAlpha(200);
@@ -158,9 +181,9 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                pd.dismiss();
-                swipeRefreshLayout.setRefreshing(false);
                 if (task.isSuccessful()) {
+                    pd.dismiss();
+                    swipeRefreshLayout.setRefreshing(false);
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         if (documentSnapshot.exists()) {
                             WorkerViewModel workerViewModel = new WorkerViewModel(
@@ -184,7 +207,6 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
                     recyclerView.setAdapter(categoryAdapter);
                 }
                 else {
-                    pd.dismiss();
                     Log.d("ERROR", "Error getting documents: ", task.getException());
                 }
             }
@@ -291,6 +313,43 @@ public class WorkerFragment extends Fragment implements CategoryAdapter.BookingP
         AlertDialog alert = alertDialog.create();
         alert.show();
         Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+        pbutton.setTextColor(Color.WHITE);
+    }
+
+    protected boolean checkConnection(){
+        ConnectivityManager conMan = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
+
+        final boolean connected = networkInfo != null
+                && networkInfo.isAvailable()
+                && networkInfo.isConnected();
+
+        if ( !connected) {
+            Toast.makeText(getActivity(), "Failed to connect to internet.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void networkErrorAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        String message = "Please Check your Internet Connection";
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("No Internet");
+        alertDialog.setMessage(message);
+        alertDialog.setPositiveButton("   Return to Home   ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent to_home = new Intent(getContext(), Home.class);
+                startActivity(to_home);
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
         pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
         pbutton.setTextColor(Color.WHITE);

@@ -30,6 +30,6 @@
         android:layout_gravity="center_vertical"
         android:gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Book"/>
+        android:text="@string/book"/>
 
 </LinearLayout>

@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
         role_title = root.findViewById(R.id.role_title);
         profile_fullName = root.findViewById(R.id.user_name);
         profile_phone = root.findViewById(R.id.user_phone);
-        phone_edit_icon = root.findViewById(R.id.phone_edit);
+        //phone_edit_icon = root.findViewById(R.id.phone_edit);
         add_phone_field = root.findViewById(R.id.add_phone_number);
         profile_update = root.findViewById(R.id.profile_update_button);
         logout_btn = root.findViewById(R.id.logout_button);
@@ -119,20 +119,20 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        phone_edit_icon.setOnClickListener(new View.OnClickListener() {
+        /*phone_edit_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 profile_phone.setVisibility(View.GONE);
                 add_phone_field.setVisibility(View.VISIBLE);
             }
-        });
+        });*/
 
         profile_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String new_username = username_change_field.getText().toString().trim();
                 String new_search_name = username_change_field.getText().toString().toLowerCase().trim();
-                String new_Phone_number = add_phone_field.getText().toString().trim();
+                //String new_Phone_number = add_phone_field.getText().toString().trim();
                 if (!TextUtils.isEmpty(new_username)){
                     Map<String, Object> user = new HashMap<>();
                     user.put("name", new_username);
@@ -147,7 +147,7 @@ public class ProfileFragment extends Fragment {
                     username_change_field.setVisibility(View.GONE);
                     profile_fullName.setVisibility(View.VISIBLE);
                 }
-                if (!TextUtils.isEmpty(new_Phone_number)){
+                /*if (!TextUtils.isEmpty(new_Phone_number)){
                     Map<String, Object> user = new HashMap<>();
                     user.put("phone", new_Phone_number);
                     fStore.collection("users").document(currentUserID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -159,6 +159,7 @@ public class ProfileFragment extends Fragment {
                     add_phone_field.setVisibility(View.GONE);
                     profile_phone.setVisibility(View.VISIBLE);
                 }
+                 */
             }
         });
 

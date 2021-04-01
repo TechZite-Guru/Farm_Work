@@ -43,6 +43,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     public RecyclerView recyclerView;
     Toolbar toolbar;
+    Button to_bookedhistory_btn;
     CategoryAdapter categoryAdapter;
     CarouselView carouselView;
 
@@ -56,10 +57,21 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
 
+        to_bookedhistory_btn = root.findViewById(R.id.bookedHistory_btn);
+
         carouselView = root.findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
 
         carouselView.setImageListener(imageListener);
+
+        to_bookedhistory_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent to_book_history = new Intent(getContext(), WorkerBookedHistory.class);
+                startActivity(to_book_history);
+            }
+        });
+
         return root;
     }
 
