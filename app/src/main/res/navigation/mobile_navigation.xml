@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_worker" />
 
     <fragment
-        android:id="@+id/navigation_machinery"
-        android:name="com.example.farmwork.MachineryFragment"
+        android:id="@+id/navigation_notification"
+        android:name="com.example.farmwork.NotificationFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_machinery" />
+        tools:layout="@layout/fragment_notification" />
 
     <fragment
         android:id="@+id/navigation_profile"

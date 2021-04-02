@@ -30,6 +30,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -152,6 +154,13 @@ public class RegisterActivity extends AppCompatActivity {
                 //registerProgress.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.MULTIPLY);
                 //registerProgress.setVisibility(View.VISIBLE);
                 storeUserData();
+                Toast.makeText(getApplicationContext(), "Your Account has been Created", Toast.LENGTH_SHORT).show();
+                Log.d("User_Success", "createUserWithEmail:success");
+
+                //Toast after successfull account creation
+
+                Intent to_login = new Intent(RegisterActivity.this, Home.class);
+                startActivity(to_login);
             }
         });
     }
@@ -167,7 +176,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("search_name", search_name);
         user.put("random_string", random_string_generated);
         Log.d("Random String : ", random_string_generated);
-        if (role.equals("Worker")){
+        if (role.equals("Worker")) {
             user.put("fare", fare_amount);
         }
         fStore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -185,6 +194,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (role.equals("Worker")) {
             Map<String, Object> date = new HashMap<>();
             date.put("booking_date", "10/12/1999");
+
+            //creating a collection for booking of worker
             fStore.collection("Worker").document(userID).collection("BookedBy").document("test").set(date).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -196,14 +207,101 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d("User Data", "User Data Upload UnSuccess");
                 }
             });
+            WorkerNotification();
         }
+        else {
+            BookerNotification();
+        }
+    }
 
-        Toast.makeText(getApplicationContext(), "Your Account has been Created", Toast.LENGTH_SHORT).show();
-        Log.d("User_Success", "createUserWithEmail:success");
+    public void WorkerNotification() {
+        Map<String, Object> notifi = new HashMap<>();
+        notifi.put("notification", "Your Worker Notification text goes here");
 
-        //Toast after successfull account creation
+        //creating a collection for notifications
+        fStore.collection("Notifications").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("User Data", "User Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "User Data Upload UnSuccess");
+            }
+        });
+        BookerNotification();
+    }
 
-        Intent to_login = new Intent(RegisterActivity.this, Home.class);
-        startActivity(to_login);
+    public void BookerNotification() {
+        Map<String, Object> notifi = new HashMap<>();
+        notifi.put("notification", "Your Booker_Notifications text goes here");
+
+        fStore.collection("Booker_Notifications").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("User Data", "User Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "User Data Upload UnSuccess");
+            }
+        });
+        generateDates();
+    }
+
+    public void generateDates() {
+        for (int j = 1; j <= 7; j++) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy, EEEE");
+            Calendar currentCal = Calendar.getInstance();
+            String currentdate = dateFormat.format(currentCal.getTime());
+            Log.d("Current Date", ""+currentdate);
+            currentCal.add(Calendar.DATE, j);
+            String toDate = dateFormat.format(currentCal.getTime());
+            String booking_day = toDate.replaceAll("[^a-zA-Z]", "");
+            if (role.equals("Worker")) {
+                WorkerPastNotifications(booking_day);
+            }
+            else {
+                BookerPastNotification(booking_day);
+            }
+        }
+    }
+
+    public void WorkerPastNotifications(String day) {
+
+        Map<String, Object> notifi = new HashMap<>();
+        notifi.put("notification", "Your Worker Past Notifications text goes here");
+
+        fStore.collection("Past_notifications").document(userID + day).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Worker", "Worker Past Notification Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
+
+        BookerPastNotification(day);
+    }
+
+    public void BookerPastNotification(String day) {
+        Map<String, Object> notifi = new HashMap<>();
+        notifi.put("notification", "Your Booker_Past_notifications goes here");
+        fStore.collection("Booker_Past_notifications").document(userID+day).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Booker", "Booker Past Notification Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
     }
 }

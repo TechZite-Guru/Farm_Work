@@ -64,4 +64,11 @@
     <string name="booking_date" translatable="false">Booking Date :</string>
     <string name="getting_data" translatable="false">Getting Data...</string>
     <string name="locating_you" translatable="false">Locating You ....</string>
+    <string name="notification_text1" translatable="false">You have been Successfully Booked by</string>
+    <string name="notification_text2" translatable="false">for the Date</string>
+    <string name="notification_text3" translatable="false">So, Please contact the Booker as soon as possible.</string>
+
+    <string name="booker_notification_text1" translatable="false">You have Successfully Booked</string>
+    <string name="booker_notification_text2" translatable="false">for the Date</string>
+    <string name="booker_notification_text3" translatable="false">So, Please contact the Worker as soon as possible.</string>
 </resources>

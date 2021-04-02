@@ -34,7 +34,7 @@ public class Booking_Details extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     DocumentReference documentReference;
-    private String hisid, Currenthisid, booking_date, booking_day, worker_name;
+    private String hisid, Currenthisid, booking_date, booking_day, worker_name, worker_name_CAP;
     String[] days = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
 
 
@@ -61,6 +61,7 @@ public class Booking_Details extends AppCompatActivity {
             hisid = datesViewModel.getId2();
             Log.d("Day", ""+booking_day);
             worker_name = intent.getStringExtra("name");
+            worker_name_CAP = worker_name.toUpperCase();
         }
 
         booking_day = booking_date.replaceAll("[^a-zA-Z]", "");
@@ -106,10 +107,61 @@ public class Booking_Details extends AppCompatActivity {
         booked.put("booking_date", booking_date);
         booked.put("worker_id", hisid);
 
-        Log.d("Success", "Crossed Map");
-        Log.d("ID: ", "" +hisid);
+        String notification_text = getResources().getString(R.string.notification_text1)+" "+name123+" "+getResources().getString(R.string.notification_text2)+" "+booking_date+". "+getResources().getString(R.string.notification_text3);
+        Map<String, Object> notify = new HashMap<>();
+        notify.put("notification", notification_text);
+
+        String booker_notification_text = getResources().getString(R.string.booker_notification_text1)+" "+worker_name_CAP+" "+getResources().getString(R.string.booker_notification_text2)+" "+booking_date+". "+getResources().getString(R.string.booker_notification_text3);
+        Map<String, Object> booker_notify = new HashMap<>();
+        booker_notify.put("notification", booker_notification_text);
 
         fStore.collection("Worker").document(hisid).collection("BookedBy").document(Currenthisid+booking_day).set(book).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Booking Data", "Booking Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
+
+        fStore.collection("Notifications").document(hisid).set(notify).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Booking Data", "Booking Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
+        fStore.collection("Booker_Notifications").document(Currenthisid).set(booker_notify).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Booking Data", "Booking Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
+        fStore.collection("Past_notifications").document(hisid+booking_day).set(notify).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Booking Data", "Booking Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
+
+        fStore.collection("Booker_Past_notifications").document(Currenthisid+booking_day).set(booker_notify).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Booking Data", "Booking Data Upload Success");
@@ -124,8 +176,7 @@ public class Booking_Details extends AppCompatActivity {
     }
     private void bookingAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        String name = worker_name.toUpperCase();
-        String message = "You have Successfully booked the Worker "+name+" for the date "+booking_date;
+        String message = "You have Successfully booked the Worker "+worker_name_CAP+" for the date "+booking_date;
         alertDialog.setCancelable(false);
         alertDialog.setTitle("Booking Success");
         alertDialog.setMessage(message);

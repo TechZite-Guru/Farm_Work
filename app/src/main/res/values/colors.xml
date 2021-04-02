@@ -11,6 +11,7 @@
     <color name="grey_selectable">#969696</color>
     <color name="text_grey">#605d5d</color>
     <color name="green_alpha_bg">#2935FF1E</color>
+    <color name="grey_alpha_bg">#29969696</color>
     <color name="red_alpha_bg">#29fc0d15</color>
 
     <!-- Screens background color-->

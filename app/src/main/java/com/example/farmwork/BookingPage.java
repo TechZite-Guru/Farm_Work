@@ -156,6 +156,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy, EEEE");
             Calendar currentCal = Calendar.getInstance();
             String currentdate = dateFormat.format(currentCal.getTime());
+            Log.d("Current Date", ""+currentdate);
             currentCal.add(Calendar.DATE, j);
             String toDate = dateFormat.format(currentCal.getTime());
             getDates(toDate);
