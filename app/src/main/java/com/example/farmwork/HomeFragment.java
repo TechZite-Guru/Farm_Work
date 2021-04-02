@@ -31,6 +31,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -46,6 +53,11 @@ public class HomeFragment extends Fragment {
     Button to_bookedhistory_btn;
     CategoryAdapter categoryAdapter;
     CarouselView carouselView;
+    FirebaseFirestore fStore;
+    FirebaseAuth fAuth;
+    private String currentUserId;
+    private String role;
+    ListenerRegistration registration;
 
     int[] sampleImages = {R.drawable.farmland, R.drawable.worker, R.drawable.machinery};
 
@@ -57,20 +69,17 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
 
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        currentUserId = fAuth.getCurrentUser().getUid();
+
         to_bookedhistory_btn = root.findViewById(R.id.bookedHistory_btn);
 
         carouselView = root.findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
-
         carouselView.setImageListener(imageListener);
 
-        to_bookedhistory_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent to_book_history = new Intent(getContext(), WorkerBookedHistory.class);
-                startActivity(to_book_history);
-            }
-        });
+        takeRole();
 
         return root;
     }
@@ -82,6 +91,33 @@ public class HomeFragment extends Fragment {
             imageView.setImageResource(sampleImages[position]);
         }
     };
+
+    public void takeRole() {
+        registration = fStore.collection("users").document(currentUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (documentSnapshot != null) {
+                    role = documentSnapshot.getString("roles");
+                    if (role.equals("Worker")) {
+                        to_bookedhistory_btn.setVisibility(View.VISIBLE);
+                        to_bookedhistory_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent to_book_history = new Intent(getContext(), WorkerBookedHistory.class);
+                                startActivity(to_book_history);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        registration.remove();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {

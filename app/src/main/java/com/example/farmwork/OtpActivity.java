@@ -33,6 +33,7 @@ public class OtpActivity extends AppCompatActivity {
     DocumentReference documentReference;
     String userID, codeSent, phone;
     ProgressDialog pd;
+    private String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,17 @@ public class OtpActivity extends AppCompatActivity {
         login_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                code = otp.getText().toString();
+                if (code.isEmpty()) {
+                    otp.setError("OTP Required");
+                    otp.requestFocus();
+                    return;
+                }
+                if (code.length()<6) {
+                    otp.setError("Enter 6 digits OTP");
+                    otp.requestFocus();
+                    return;
+                }
                 pd.setTitle("Logging in...");
                 pd.show();
                 pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -92,7 +104,6 @@ public class OtpActivity extends AppCompatActivity {
     }
 
     private void verifySignInCode() {
-        String code = otp.getText().toString();
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
         signInWithPhoneAuthCredential(credential);
     }

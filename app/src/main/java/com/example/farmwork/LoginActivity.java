@@ -74,6 +74,17 @@ public class LoginActivity extends AppCompatActivity {
         send_otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ph_number = user_phone.getText().toString().trim();
+                if (ph_number.isEmpty()) {
+                    user_phone.setError("Phone Number Required");
+                    user_phone.requestFocus();
+                    return;
+                }
+                if (ph_number.length() < 10) {
+                    user_phone.setError("Invalid Phone Number");
+                    user_phone.requestFocus();
+                    return;
+                }
                 Toast.makeText(getApplicationContext(),"Sending OTP.....", Toast.LENGTH_SHORT).show();
                 sendVerificationCode();
             }
@@ -173,19 +184,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void sendVerificationCode() {
         String india_code = "+91";
-        ph_number = user_phone.getText().toString().trim();
         phone = india_code+ph_number;
         Toast.makeText(getApplicationContext(), phone, Toast.LENGTH_LONG).show();
-        if (phone.isEmpty()) {
-            user_phone.setError("Phone Number Required");
-            user_phone.requestFocus();
-            return;
-        }
-        if (phone.length() < 10) {
-            user_phone.setError("Invalid Phone Number");
-            user_phone.requestFocus();
-            return;
-        }
 
         fAuth.useAppLanguage();
 

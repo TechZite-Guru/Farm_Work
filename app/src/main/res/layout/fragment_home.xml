@@ -35,5 +35,6 @@
         android:text="UpComing Works"
         android:textSize="18sp"
         android:layout_marginTop="30dp"
+        android:visibility="gone"
         android:layout_gravity="center"/>
 </LinearLayout>
