@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     public RecyclerView recyclerView;
     Toolbar toolbar;
-    Button to_bookedhistory_btn;
+    Button to_bookedhistory_bttn;
     CategoryAdapter categoryAdapter;
     CarouselView carouselView;
     FirebaseFirestore fStore;
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         currentUserId = fAuth.getCurrentUser().getUid();
 
-        to_bookedhistory_btn = root.findViewById(R.id.bookedHistory_btn);
+        to_bookedhistory_bttn = root.findViewById(R.id.bookedHistory_btn);
 
         carouselView = root.findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
@@ -99,8 +99,8 @@ public class HomeFragment extends Fragment {
                 if (documentSnapshot != null) {
                     role = documentSnapshot.getString("roles");
                     if (role.equals("Worker")) {
-                        to_bookedhistory_btn.setVisibility(View.VISIBLE);
-                        to_bookedhistory_btn.setOnClickListener(new View.OnClickListener() {
+                        to_bookedhistory_bttn.setVisibility(View.VISIBLE);
+                        to_bookedhistory_bttn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent to_book_history = new Intent(getContext(), WorkerBookedHistory.class);
