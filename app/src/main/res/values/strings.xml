@@ -46,7 +46,7 @@
     <string name="farmer" translatable="false">Farmer</string>
     <string name="worker" translatable="false">Worker</string>
     <string name="farmer_details" translatable="false">FARMER DETAILS</string>
-    <string name="name" translatable="false">Name :</string>
+    <string name="name" translatable="false">Booker Name :</string>
     <string name="village" translatable="false">Village :</string>
     <string name="confirm_booking" translatable="false">Confirm Booking</string>
     <string name="availability" translatable="false">Availability</string>

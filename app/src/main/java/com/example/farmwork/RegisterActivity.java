@@ -274,7 +274,7 @@ public class RegisterActivity extends AppCompatActivity {
         Map<String, Object> notifi = new HashMap<>();
         notifi.put("notification", "Your Worker Past Notifications text goes here");
 
-        fStore.collection("Past_notifications").document(userID + day).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fStore.collection("Past_notifications").document(userID + day).collection("workerID").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Worker", "Worker Past Notification Upload Success");
@@ -292,7 +292,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void BookerPastNotification(String day) {
         Map<String, Object> notifi = new HashMap<>();
         notifi.put("notification", "Your Booker_Past_notifications goes here");
-        fStore.collection("Booker_Past_notifications").document(userID+day).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fStore.collection("Booker_Past_notifications").document(userID+day).collection("workerID").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Booker", "Booker Past Notification Upload Success");

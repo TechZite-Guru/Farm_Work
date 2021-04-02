@@ -18,8 +18,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class Booking_Details extends AppCompatActivity {
     DocumentReference documentReference;
     private String hisid, Currenthisid, booking_date, booking_day, worker_name, worker_name_CAP;
     String[] days = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+    private FirebaseFirestore firestore;
 
 
     @Override
@@ -110,10 +113,14 @@ public class Booking_Details extends AppCompatActivity {
         String notification_text = getResources().getString(R.string.notification_text1)+" "+name123+" "+getResources().getString(R.string.notification_text2)+" "+booking_date+". "+getResources().getString(R.string.notification_text3);
         Map<String, Object> notify = new HashMap<>();
         notify.put("notification", notification_text);
+        notify.put("timestamp", FieldValue.serverTimestamp());
 
         String booker_notification_text = getResources().getString(R.string.booker_notification_text1)+" "+worker_name_CAP+" "+getResources().getString(R.string.booker_notification_text2)+" "+booking_date+". "+getResources().getString(R.string.booker_notification_text3);
         Map<String, Object> booker_notify = new HashMap<>();
         booker_notify.put("notification", booker_notification_text);
+        booker_notify.put("timestamp", FieldValue.serverTimestamp());
+
+        //Firestore.instance.collection("item").add({...other items, 'created': FieldValue.serverTimestamp()});
 
         fStore.collection("Worker").document(hisid).collection("BookedBy").document(Currenthisid+booking_day).set(book).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -149,7 +156,7 @@ public class Booking_Details extends AppCompatActivity {
                 Log.d("User Data", "Booking Data Upload UnSuccess");
             }
         });
-        fStore.collection("Past_notifications").document(hisid+booking_day).set(notify).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fStore.collection("Past_notifications").document(hisid+booking_day).collection("workerID").document(Currenthisid).set(notify).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Booking Data", "Booking Data Upload Success");
@@ -161,7 +168,7 @@ public class Booking_Details extends AppCompatActivity {
             }
         });
 
-        fStore.collection("Booker_Past_notifications").document(Currenthisid+booking_day).set(booker_notify).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fStore.collection("Booker_Past_notifications").document(Currenthisid+booking_day).collection("workerID").document(hisid).set(booker_notify).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Booking Data", "Booking Data Upload Success");

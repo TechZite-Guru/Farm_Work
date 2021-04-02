@@ -1,6 +1,7 @@
 package com.example.farmwork;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +47,7 @@ import java.util.List;
 
 public class NotificationFragment extends Fragment {
 
+    ProgressDialog pd;
     TextView no_notifications;
     RecyclerView recyclerView;
     FirebaseFirestore fStore;
@@ -55,7 +58,6 @@ public class NotificationFragment extends Fragment {
     List<NotificationViewModel> notification_list = new ArrayList<>();
     String booker_notification;
     String worker_notification;
-    int count = 0, count2 = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -69,9 +71,18 @@ public class NotificationFragment extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         currentUserId = fAuth.getCurrentUser().getUid();
 
+        pd = new ProgressDialog(getActivity());
+
+        pd.show();
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setContentView(R.layout.progress_dialog);
+
         no_notifications = root.findViewById(R.id.no_notifies);
         recyclerView = root.findViewById(R.id.recyclerview_notifications);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL) {
             @Override
             public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
@@ -136,37 +147,31 @@ public class NotificationFragment extends Fragment {
     }
 
     public void loadBookerPastNotification(String day) {
-        fStore.collection("Booker_Past_notifications").document(currentUserId+day).addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot != null) {
-                    if (!documentSnapshot.getString("notification").equals("Your Booker_Past_notifications goes here")) {
-                        count++;
-                        if (!booker_notification.equals(documentSnapshot.getString("notification"))) {
-                            notification_list.add(new NotificationViewModel(booker_notification));
-                            notification_list.add(new NotificationViewModel(documentSnapshot.getString("notification")));
-                        }
-                        else {
-                            notification_list.add(new NotificationViewModel(booker_notification));
-                        }
-                        if (role.equals("Worker")) {
-                            loadWorkerPastNotification(day);
-                        }
-                        else {
-                            notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
-                            recyclerView.setAdapter(notificationAdapter);
-                        }
-                    }
+        fStore.collection("Booker_Past_notifications").document(currentUserId+day).collection("workerID").orderBy("timestamp").limitToLast(20).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (!document.getString("notification").equals("Your Booker_Past_notifications goes here")) {
 
-                    if (role.equals("Worker")) {
-                        loadWorkerPastNotification(day);
+                                        notification_list.add(new NotificationViewModel(document.getString("notification")));
+                                    if (role.equals("Worker")) {
+                                        loadWorkerPastNotification(day);
+                                    } else {
+                                        pd.dismiss();
+                                        notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
+                                        recyclerView.setAdapter(notificationAdapter);
+                                    }
+                                }
+
+                                if (role.equals("Worker")) {
+                                    loadWorkerPastNotification(day);
+                                }
+                            }
+                        }
                     }
-                }
-            }
-        });
-        if (count == 0) {
-            no_notifications.setVisibility(View.VISIBLE);
-        }
+                });
     }
 
     public void loadWorkerNotification() {
@@ -184,28 +189,26 @@ public class NotificationFragment extends Fragment {
     }
 
     public void loadWorkerPastNotification(String day) {
-        fStore.collection("Past_notifications").document(currentUserId+day).addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot != null) {
-                    if (!documentSnapshot.getString("notification").equals("Your Worker Past Notifications text goes here")) {
-                        count2++;
-                        if (!worker_notification.equals(documentSnapshot.getString("notification"))) {
-                            notification_list.add(new NotificationViewModel(worker_notification));
-                            notification_list.add(new NotificationViewModel(documentSnapshot.getString("notification")));
+        fStore.collection("Past_notifications").document(currentUserId+day).collection("workerID").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                pd.dismiss();
+                                if (!document.getString("notification").equals("Your Worker Past Notifications text goes here")) {
+                                    if (!worker_notification.equals(document.getString("notification"))) {
+                                        notification_list.add(new NotificationViewModel(document.getString("notification")));
+                                    } else {
+                                        notification_list.add(new NotificationViewModel(worker_notification));
+                                    }
+                                    notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
+                                    recyclerView.setAdapter(notificationAdapter);
+                                }
+                            }
                         }
-                        else {
-                            notification_list.add(new NotificationViewModel(worker_notification));
-                        }
-                        notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
-                        recyclerView.setAdapter(notificationAdapter);
                     }
-                }
-            }
-        });
-        if (count2 == 0) {
-            no_notifications.setVisibility(View.VISIBLE);
-        }
+                });
     }
 
     @Override

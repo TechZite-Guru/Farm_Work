@@ -4,5 +4,8 @@
     <size
         android:width="100dp"
         android:height="100dp"/>
+    <corners
+        android:bottomLeftRadius="50dp"
+        android:bottomRightRadius="50dp"/>
 
 </shape>
