@@ -16,7 +16,7 @@
     <color name="orange_alpha_bg">#29ffc800</color>
 
     <!-- Screens background color-->
-    <color name="bg_screen1">#0ed600</color>
+    <color name="bg_screen1">#4ecc6f</color>
     <color name="bg_screen2">#20d2bb</color>
     <color name="bg_screen3">#3395ff</color>
     <color name="bg_screen4">#c873f4</color>

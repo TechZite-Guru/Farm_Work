@@ -39,7 +39,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -159,16 +158,17 @@ public class NotificationFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (!document.getString("notification").equals("Your Booker_Past_notifications goes here")) {
-                                        notification_list.add(new NotificationViewModel(document.getString("notification")));
-                                        no_notifications.setVisibility(View.GONE);
-                                    if (role.equals("Worker")) {
-                                        loadWorkerPastNotification(day);
-                                    } else {
+                                    notification_list.add(new NotificationViewModel(document.getString("notification")));
+                                    if (!role.equals("Worker")) {
                                         pd.dismiss();
                                         swipeRefreshLayout.setRefreshing(false);
                                         notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
                                         recyclerView.setAdapter(notificationAdapter);
                                     }
+
+                                }
+                                else {
+                                    no_notifications.setVisibility(View.VISIBLE);
                                 }
 
                                 if (role.equals("Worker")) {
@@ -195,7 +195,7 @@ public class NotificationFragment extends Fragment {
     }
 
     public void loadWorkerPastNotification(String day) {
-        fStore.collection("Past_notifications").document(currentUserId+day).collection("workerID").get()
+        fStore.collection("Past_notifications").document(currentUserId+day).collection("workerID").orderBy("timestamp").limitToLast(20).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -204,11 +204,8 @@ public class NotificationFragment extends Fragment {
                                 pd.dismiss();
                                 swipeRefreshLayout.setRefreshing(false);
                                 if (!document.getString("notification").equals("Your Worker Past Notifications text goes here")) {
-                                    if (!worker_notification.equals(document.getString("notification"))) {
-                                        notification_list.add(new NotificationViewModel(document.getString("notification")));
-                                    } else {
-                                        notification_list.add(new NotificationViewModel(worker_notification));
-                                    }
+                                    no_notifications.setVisibility(View.GONE);
+                                    notification_list.add(new NotificationViewModel(document.getString("notification")));
                                     notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
                                     recyclerView.setAdapter(notificationAdapter);
                                 }

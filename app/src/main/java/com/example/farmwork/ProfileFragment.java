@@ -167,7 +167,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fAuth.signOut();
-                startActivity(new Intent(getContext(),LoginActivity.class));
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
 

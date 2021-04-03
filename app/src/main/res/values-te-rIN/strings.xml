@@ -5,7 +5,7 @@
     <string name="slide_1_title">పొలం పని</string>
     <string name="title_home">"హోం "</string>
     <string name="title_dashboard">పనివారు</string>
-    <string name="title_notifications">యంత్రాలు</string>
+    <string name="title_notifications">నోటిఫికేషన్‌లు</string>
     <string name="title_activity_welcome" translatable="false">హోమ్ స్క్రీన్</string>
     <string name="next">తరువాత</string>
     <string name="skip">దాటవేయి</string>
@@ -29,9 +29,9 @@
     <string name="farmer">రైతు</string>
     <string name="worker">కార్మికులు</string>
     <string name="farmer_details">రైతు వివరాలు</string>
-    <string name="name">బుకర్ పేరు</string>
+    <string name="name">బుకర్ పేరు:</string>
     <string name="confirm_booking">బుకింగ్ నిర్ధారించండి</string>
-    <string name="village">ఊరు</string>
+    <string name="village">ఊరు:</string>
     <string name="availability">లభ్యత</string>
     <string name="get_otp">OTP పొందండి</string>
     <string name="enter_otp">OTP ని నమోదు చేయండి</string>
@@ -41,7 +41,7 @@
     <string name="update">అప్డేట్</string>
     <string name="logout">లాగ్ అవుట్</string>
     <string name="book">బుక్ చేయండి</string>
-    <string name="loading">లోడింగ్</string>
+    <string name="loading">లోడింగ్...</string>
     <string name="slide_1_desc">రైతులకు పనులను సులభతరం చేసే మరియు వ్యవసాయ కార్మికులను పెంచే వేదిక</string>
     <string name="slide_2_title">మీ వర్కర్‌ను బుక్ చేయండి</string>
     <string name="slide_2_desc">కావలసిన తేదీ కోసం మీ స్థానంలో వర్కర్‌ను బుక్ చేయండి</string>
@@ -55,7 +55,7 @@
     <string name="for_next_weeek">(వచ్చే 7 రోజుల్లో)</string>
     <string name="phone_number_colon">"ఫోను నంబరు : "</string>
     <string name="booking_date">బుకింగ్ తేదీ:</string>
-    <string name="getting_data">డేటా పొందడం ...</string>
+    <string name="getting_data">డేటాను లోడ్ చేస్తోంది ...</string>
     <string name="locating_you">మిమ్మల్ని గుర్తించడం ....</string>
     <string name="notification_text1">మీరు విజయవంతంగా బుక్ చేయబడ్డారు</string>
     <string name="notification_text2">తేదీ కోసం</string>
@@ -67,4 +67,7 @@
     <string name="upcoming_bookings">రాబోయే బుకింగ్‌లు</string>
     <string name="hello_blank_fragment">హలో ఖాళీ పేజీ</string>
     <string name="worker_name">కార్మికుల పేరు:</string>
+    <string name="no_upcoming_works_available" translatable="false">రాబోయే పనులు ఏవీ అందుబాటులో లేవు</string>
+    <string name="check_your_internet_connection" translatable="false">ఇంటర్నెట్‌కు కనెక్ట్ అవ్వండి</string>
+    <string name="you_don_t_have_notifications" translatable="false">మీకు నోటిఫికేషన్‌లు లేవు</string>
 </resources>

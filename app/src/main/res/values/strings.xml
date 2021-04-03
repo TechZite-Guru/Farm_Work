@@ -2,78 +2,80 @@
     <string name="app_name">Farm Work</string>
     <string name="select_lang">SELECT LANGUAGE</string>
 
-    <string name="title_activity_welcome" translatable="false">Home Screen</string>
-    <string name="next" translatable="false">NEXT</string>
-    <string name="skip" translatable="false">SKIP</string>
-    <string name="start" translatable="false">GOT IT</string>
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
 
     <string name="slide_1_title" translatable="true">Farm Work</string>
-    <string name="slide_1_desc" translatable="false">A Platform that makes the works easy for Farmers and Boost up the Farm Workers</string>
+    <string name="slide_1_desc">A Platform that makes the works easy for Farmers and Boost up the Farm Workers</string>
 
-    <string name="slide_2_title" translatable="false">Book Your Worker</string>
-    <string name="slide_2_desc" translatable="false">Book the Worker in your location for the desired date</string>
+    <string name="slide_2_title">Book Your Worker</string>
+    <string name="slide_2_desc">Book the Worker in your location for the desired date</string>
 
-    <string name="slide_3_title" translatable="false">Less Cost</string>
-    <string name="slide_3_desc" translatable="false">We provide the services in minimal cost.</string>
+    <string name="slide_3_title">Less Cost</string>
+    <string name="slide_3_desc">We provide the services in minimal cost.</string>
 
-    <string name="slide_4_title" translatable="false">Time Management</string>
-    <string name="slide_4_desc" translatable="false">Don\'t waste your time roaming for the workers. Here we provide the great ones.</string>
+    <string name="slide_4_title">Time Management</string>
+    <string name="slide_4_desc">Don\'t waste your time roaming for the workers. Here we provide the great ones.</string>
 
-    <string name="title_activity_home" translatable="false">Home</string>
+    <string name="title_activity_home">Home</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Workers</string>
     <string name="title_notifications">Inbox</string>
-    <string name="menu_name" translatable="false">search</string>
+    <string name="menu_name">search</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="swipe_left_for_register" translatable="false">Swipe Left for Register</string>
-    <string name="login" translatable="false">Login</string>
-    <string name="password" translatable="false">Password</string>
-    <string name="e_mail" translatable="false">Email</string>
-    <string name="tag" translatable="false">Let\'s join us and Build your relationship with others</string>
-    <string name="swipe_right_for_login" translatable="false">Swipe Right for Login</string>
-    <string name="register" translatable="false">Register</string>
-    <string name="re_type_password" translatable="false">Re-type Password</string>
-    <string name="your_name" translatable="false">Full Name</string>
-    <string name="title_profile" translatable="false">Profile</string>
-    <string name="title_booking" translatable="false">Booking</string>
-    <string name="distance_from_you" translatable="false">Distance from You</string>
-    <string name="phone_number" translatable="false">Phone Number</string>
-    <string name="otp" translatable="false">OTP</string>
-    <string name="select_who_you_are" translatable="false">Select who you are:</string>
-    <string name="farmer" translatable="false">Farmer</string>
-    <string name="worker" translatable="false">Worker</string>
-    <string name="farmer_details" translatable="false">FARMER DETAILS</string>
-    <string name="name" translatable="false">Booker Name :</string>
-    <string name="worker_name" translatable="false">Worker Name :</string>
-    <string name="village" translatable="false">Village :</string>
-    <string name="confirm_booking" translatable="false">Confirm Booking</string>
-    <string name="availability" translatable="false">Availability</string>
-    <string name="get_otp" translatable="false">GET OTP</string>
-    <string name="enter_otp" translatable="false">Enter OTP</string>
-    <string name="fare_in_rs_day" translatable="false">Fare in Rs/day:</string>
-    <string name="_400_1_day" translatable="false">400/- 1 Day</string>
-    <string name="add_phone_number" translatable="false">Add Phone Number</string>
-    <string name="update" translatable="false">Update</string>
-    <string name="logout" translatable="false">Logout</string>
-    <string name="book" translatable="false">Book</string>
-    <string name="loading" translatable="false">Loading...</string>
-    <string name="worker_tasks_btn" translatable="false">Upcoming Works</string>
-    <string name="booker_books_btn" translatable="false">Your Bookings</string>
-    <string name="for_next_weeek" translatable="false">( In next 7 days )</string>
-    <string name="phone_number_colon" translatable="false">Phone Number :</string>
-    <string name="booking_date" translatable="false">Booking Date :</string>
-    <string name="getting_data" translatable="false">Getting Data...</string>
-    <string name="locating_you" translatable="false">Locating You ....</string>
-    <string name="notification_text1" translatable="false">You have been Successfully Booked by</string>
-    <string name="notification_text2" translatable="false">for the Date</string>
-    <string name="notification_text3" translatable="false">So, Please contact the Booker as soon as possible.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="swipe_left_for_register">Swipe Left for Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="e_mail">Email</string>
+    <string name="tag">Let\'s join us and Build your relationship with others</string>
+    <string name="swipe_right_for_login">Swipe Right for Login</string>
+    <string name="register">Register</string>
+    <string name="re_type_password">Re-type Password</string>
+    <string name="your_name">Full Name</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_booking">Booking</string>
+    <string name="distance_from_you">Distance from You</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="otp">OTP</string>
+    <string name="select_who_you_are">Select who you are:</string>
+    <string name="farmer">Farmer</string>
+    <string name="worker">Worker</string>
+    <string name="farmer_details">FARMER DETAILS</string>
+    <string name="name">Booker Name :</string>
+    <string name="worker_name">Worker Name :</string>
+    <string name="village">Village :</string>
+    <string name="confirm_booking">Confirm Booking</string>
+    <string name="availability">Availability</string>
+    <string name="get_otp">GET OTP</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="fare_in_rs_day">Fare in Rs/day:</string>
+    <string name="_400_1_day">400/- 1 Day</string>
+    <string name="add_phone_number">Add Phone Number</string>
+    <string name="update">Update</string>
+    <string name="logout">Logout</string>
+    <string name="book">Book</string>
+    <string name="loading">Loading...</string>
+    <string name="worker_tasks_btn">Upcoming Works</string>
+    <string name="booker_books_btn">Your Bookings</string>
+    <string name="for_next_weeek">( In next 7 days )</string>
+    <string name="phone_number_colon">Phone Number :</string>
+    <string name="booking_date">Booking Date :</string>
+    <string name="getting_data">Getting Data...</string>
+    <string name="locating_you">Locating You ....</string>
+    <string name="notification_text1">You have been Successfully Booked by</string>
+    <string name="notification_text2">for the Date</string>
+    <string name="notification_text3">So, Please contact the Booker as soon as possible.</string>
 
-    <string name="booker_notification_text1" translatable="false">You have Successfully Booked</string>
-    <string name="booker_notification_text2" translatable="false">for the Date</string>
-    <string name="booker_notification_text3" translatable="false">So, Please contact the Worker as soon as possible.</string>
-    <string name="upcoming_works" translatable="false">Upcoming Works</string>
-    <string name="upcoming_bookings" translatable="false">Upcoming Bookings</string>
-    <string name="no_upcoming_works_available" translatable="false">No Upcoming works available</string>
-    <string name="check_your_internet_connection" translatable="false">Check your Internet Connection</string>
+    <string name="booker_notification_text1">You have Successfully Booked</string>
+    <string name="booker_notification_text2">for the Date</string>
+    <string name="booker_notification_text3">So, Please contact the Worker as soon as possible.</string>
+    <string name="upcoming_works">Upcoming Works</string>
+    <string name="upcoming_bookings">Upcoming Bookings</string>
+    <string name="no_upcoming_works_available">No Upcoming works available</string>
+    <string name="check_your_internet_connection">Check your Network Connection</string>
+    <string name="you_don_t_have_notifications">You Don\'t have Notifications</string>
+    <string name="booking_success" translatable="false">Booking Success</string>
 </resources>

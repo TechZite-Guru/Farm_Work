@@ -203,9 +203,9 @@ public class Booking_Details extends AppCompatActivity {
     }
     private void bookingAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        String message = "You have Successfully booked the Worker "+worker_name_CAP+" for the date "+booking_date;
+        String message = getResources().getString(R.string.booker_notification_text1)+" "+worker_name_CAP+" "+getResources().getString(R.string.booker_notification_text2)+" "+booking_date;
         alertDialog.setCancelable(false);
-        alertDialog.setTitle("Booking Success");
+        alertDialog.setTitle(getResources().getString(R.string.booking_success));
         alertDialog.setMessage(message);
         alertDialog.setPositiveButton("   OK   ", new DialogInterface.OnClickListener() {
             @Override

@@ -16,9 +16,10 @@
             android:id="@+id/no_notifies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You don't have notifications"
+            android:text="@string/you_don_t_have_notifications"
             android:textSize="17sp"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:layout_marginTop="50dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,7 @@
             android:scrollbarStyle="outsideOverlay"
             android:fadeScrollbars="true"
             android:scrollbarSize="5dp"
+            android:layout_marginBottom="15dp"
             android:scrollbarThumbVertical="@color/orange_500" />
 
     </LinearLayout>
