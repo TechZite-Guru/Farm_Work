@@ -74,4 +74,6 @@
     <string name="booker_notification_text3" translatable="false">So, Please contact the Worker as soon as possible.</string>
     <string name="upcoming_works" translatable="false">Upcoming Works</string>
     <string name="upcoming_bookings" translatable="false">Upcoming Bookings</string>
+    <string name="no_upcoming_works_available" translatable="false">No Upcoming works available</string>
+    <string name="check_your_internet_connection" translatable="false">Check your Internet Connection</string>
 </resources>
