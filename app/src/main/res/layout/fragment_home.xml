@@ -30,11 +30,13 @@
 
     <Button
         android:id="@+id/bookedHistory_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UpComing Works"
-        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/worker_tasks_btn"
+        android:textSize="16sp"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp"
         android:visibility="gone"
         android:layout_gravity="center"/>
 </LinearLayout>

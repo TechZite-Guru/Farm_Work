@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/swipeRefresh_notifications"
     tools:context=".NotificationFragment">
 
     <LinearLayout
@@ -18,8 +19,7 @@
             android:text="You don't have notifications"
             android:textSize="17sp"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:visibility="gone"/>
+            android:layout_marginTop="50dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_notifications"

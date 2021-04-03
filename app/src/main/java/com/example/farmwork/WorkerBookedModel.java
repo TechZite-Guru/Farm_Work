@@ -4,6 +4,12 @@ import androidx.lifecycle.ViewModel;
 
 import java.io.Serializable;
 
+/*  Created by Aravind Babu Jagarlamudi
+    Project Name: Farm Work
+    Date: 28/12/2020
+    Team: Swapna Bharathi, Nagamani, Chandana sree, Sai Krupa
+*/
+
 public class WorkerBookedModel extends ViewModel implements Serializable {
     String boo_name, boo_phone, boo_village, boo_date;
     String name;

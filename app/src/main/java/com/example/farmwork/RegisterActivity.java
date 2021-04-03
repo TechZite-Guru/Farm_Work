@@ -210,6 +210,19 @@ public class RegisterActivity extends AppCompatActivity {
             WorkerNotification();
         }
         else {
+            Map<String, Object> date = new HashMap<>();
+            date.put("booking_date", "10/12/1999");
+            fStore.collection("Booker_Bookings").document(userID).collection("Booked_Worker").document("test").set(date).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d("User Data", "User Data Upload Success");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("User Data", "User Data Upload UnSuccess");
+                }
+            });
             BookerNotification();
         }
     }

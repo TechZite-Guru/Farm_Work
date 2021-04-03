@@ -12,13 +12,14 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/upcoming_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upcoming Works"
+            android:text="@string/upcoming_works"
             android:textSize="18sp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="15dp"/>
 
         <View
             android:layout_width="match_parent"
@@ -61,10 +62,9 @@
             android:scrollbarStyle="outsideOverlay"
             android:fadeScrollbars="true"
             android:scrollbarSize="5dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@color/grey_alpha_bg"
+            android:background="@color/orange_alpha_bg"
             android:padding="10dp"
             android:scrollbarThumbVertical="@color/orange_500" />
 

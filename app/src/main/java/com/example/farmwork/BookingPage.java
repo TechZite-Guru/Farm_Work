@@ -82,7 +82,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
     String a, b;
     DatesAdapter datesAdapter;
     ProgressDialog pd;
-    String booking_date;
+    String booking_date, phone;
     List<DatesViewModel> dates_list = new ArrayList<>();
 
     @Override
@@ -139,6 +139,7 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
             WorkerViewModel workerViewModel = (WorkerViewModel) intent.getSerializableExtra("data");
             name_holder.setText(workerViewModel.getName());
             username = workerViewModel.getName();
+            phone = workerViewModel.getPhone();
             location_holder.setText(workerViewModel.getLocality());
             Picasso.get().load(workerViewModel.getProfile_image()).placeholder(R.drawable.ic_baseline_account_circle_24).into(profile_image_holder);
             id = workerViewModel.getuId();
@@ -342,6 +343,8 @@ public class BookingPage extends AppCompatActivity implements LocationListener, 
         Intent i = new Intent(this, Booking_Details.class);
         i.putExtra("date", datesViewModel);
         i.putExtra("name", username);
+        i.putExtra("phone", phone);
+        i.putExtra("location", location_holder.getText().toString().trim());
         startActivity(i);
     }
 }

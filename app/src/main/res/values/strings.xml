@@ -7,20 +7,18 @@
     <string name="skip" translatable="false">SKIP</string>
     <string name="start" translatable="false">GOT IT</string>
 
-    <string name="slide_1_title" translatable="true">Hello Food!</string>
-    <string name="slide_1_desc" translatable="false">The easiest way to order food from your favourite restaurant!</string>
+    <string name="slide_1_title" translatable="true">Farm Work</string>
+    <string name="slide_1_desc" translatable="false">A Platform that makes the works easy for Farmers and Boost up the Farm Workers</string>
 
-    <string name="slide_2_title" translatable="false">Movie Tickets</string>
-    <string name="slide_2_desc" translatable="false">Book movie tickets for your family and friends!</string>
+    <string name="slide_2_title" translatable="false">Book Your Worker</string>
+    <string name="slide_2_desc" translatable="false">Book the Worker in your location for the desired date</string>
 
-    <string name="slide_3_title" translatable="false">Great Discounts</string>
-    <string name="slide_3_desc" translatable="false">Best discounts on every single service we offer!</string>
+    <string name="slide_3_title" translatable="false">Less Cost</string>
+    <string name="slide_3_desc" translatable="false">We provide the services in minimal cost.</string>
 
-    <string name="slide_4_title" translatable="false">World Travel</string>
-    <string name="slide_4_desc" translatable="false">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_4_title" translatable="false">Time Management</string>
+    <string name="slide_4_desc" translatable="false">Don\'t waste your time roaming for the workers. Here we provide the great ones.</string>
 
-    <string name="play_again_desc" translatable="false">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
-    <string name="play_again" translatable="false">Play Again</string>
     <string name="title_activity_home" translatable="false">Home</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Workers</string>
@@ -47,6 +45,7 @@
     <string name="worker" translatable="false">Worker</string>
     <string name="farmer_details" translatable="false">FARMER DETAILS</string>
     <string name="name" translatable="false">Booker Name :</string>
+    <string name="worker_name" translatable="false">Worker Name :</string>
     <string name="village" translatable="false">Village :</string>
     <string name="confirm_booking" translatable="false">Confirm Booking</string>
     <string name="availability" translatable="false">Availability</string>
@@ -59,6 +58,8 @@
     <string name="logout" translatable="false">Logout</string>
     <string name="book" translatable="false">Book</string>
     <string name="loading" translatable="false">Loading...</string>
+    <string name="worker_tasks_btn" translatable="false">Upcoming Works</string>
+    <string name="booker_books_btn" translatable="false">Your Bookings</string>
     <string name="for_next_weeek" translatable="false">( In next 7 days )</string>
     <string name="phone_number_colon" translatable="false">Phone Number :</string>
     <string name="booking_date" translatable="false">Booking Date :</string>
@@ -71,4 +72,6 @@
     <string name="booker_notification_text1" translatable="false">You have Successfully Booked</string>
     <string name="booker_notification_text2" translatable="false">for the Date</string>
     <string name="booker_notification_text3" translatable="false">So, Please contact the Worker as soon as possible.</string>
+    <string name="upcoming_works" translatable="false">Upcoming Works</string>
+    <string name="upcoming_bookings" translatable="false">Upcoming Bookings</string>
 </resources>

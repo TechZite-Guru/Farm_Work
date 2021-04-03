@@ -3,6 +3,12 @@ package com.example.farmwork;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/*  Created by Aravind Babu Jagarlamudi
+    Project Name: Farm Work
+    Date: 28/12/2020
+    Team: Swapna Bharathi, Nagamani, Chandana sree, Sai Krupa
+*/
+
 public class PrefManager {
     SharedPreferences pref;
     SharedPreferences.Editor editor;

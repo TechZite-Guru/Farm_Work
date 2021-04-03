@@ -99,11 +99,25 @@ public class HomeFragment extends Fragment {
                 if (documentSnapshot != null) {
                     role = documentSnapshot.getString("roles");
                     if (role.equals("Worker")) {
+                        to_bookedhistory_bttn.setText(getResources().getString(R.string.worker_tasks_btn));
                         to_bookedhistory_bttn.setVisibility(View.VISIBLE);
                         to_bookedhistory_bttn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent to_book_history = new Intent(getContext(), WorkerBookedHistory.class);
+                                to_book_history.putExtra("role", role);
+                                startActivity(to_book_history);
+                            }
+                        });
+                    }
+                    else {
+                        to_bookedhistory_bttn.setText(getResources().getString(R.string.booker_books_btn));
+                        to_bookedhistory_bttn.setVisibility(View.VISIBLE);
+                        to_bookedhistory_bttn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent to_book_history = new Intent(getContext(), WorkerBookedHistory.class);
+                                to_book_history.putExtra("role", role);
                                 startActivity(to_book_history);
                             }
                         });

@@ -36,7 +36,7 @@ public class Booking_Details extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     DocumentReference documentReference;
-    private String hisid, Currenthisid, booking_date, booking_day, worker_name, worker_name_CAP;
+    private String hisid, Currenthisid, booking_date, booking_day, worker_name, worker_name_CAP, location, phone;
     String[] days = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
     private FirebaseFirestore firestore;
 
@@ -64,6 +64,8 @@ public class Booking_Details extends AppCompatActivity {
             hisid = datesViewModel.getId2();
             Log.d("Day", ""+booking_day);
             worker_name = intent.getStringExtra("name");
+            location = intent.getStringExtra("location");
+            phone = intent.getStringExtra("phone");
             worker_name_CAP = worker_name.toUpperCase();
         }
 
@@ -106,6 +108,12 @@ public class Booking_Details extends AppCompatActivity {
         book.put("bookie_village", village);
         book.put("booking_date", booking_date);
 
+        Map<String, Object> worker = new HashMap<>();
+        worker.put("worker_name", worker_name);
+        worker.put("worker_phone", phone);
+        worker.put("worker_village", location);
+        worker.put("booking_date", booking_date);
+
         Map<String, Object> booked = new HashMap<>();
         booked.put("booking_date", booking_date);
         booked.put("worker_id", hisid);
@@ -113,16 +121,28 @@ public class Booking_Details extends AppCompatActivity {
         String notification_text = getResources().getString(R.string.notification_text1)+" "+name123+" "+getResources().getString(R.string.notification_text2)+" "+booking_date+". "+getResources().getString(R.string.notification_text3);
         Map<String, Object> notify = new HashMap<>();
         notify.put("notification", notification_text);
-        notify.put("timestamp", FieldValue.serverTimestamp());
+        notify.put("timestamp", System.currentTimeMillis());
 
         String booker_notification_text = getResources().getString(R.string.booker_notification_text1)+" "+worker_name_CAP+" "+getResources().getString(R.string.booker_notification_text2)+" "+booking_date+". "+getResources().getString(R.string.booker_notification_text3);
         Map<String, Object> booker_notify = new HashMap<>();
         booker_notify.put("notification", booker_notification_text);
-        booker_notify.put("timestamp", FieldValue.serverTimestamp());
+        booker_notify.put("timestamp", System.currentTimeMillis());
 
         //Firestore.instance.collection("item").add({...other items, 'created': FieldValue.serverTimestamp()});
 
         fStore.collection("Worker").document(hisid).collection("BookedBy").document(Currenthisid+booking_day).set(book).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Booking Data", "Booking Data Upload Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User Data", "Booking Data Upload UnSuccess");
+            }
+        });
+
+        fStore.collection("Booker_Bookings").document(Currenthisid).collection("Booked_Worker").document(hisid+booking_day).set(worker).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Booking Data", "Booking Data Upload Success");

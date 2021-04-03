@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,6 +48,7 @@ import java.util.List;
 
 public class NotificationFragment extends Fragment {
 
+    SwipeRefreshLayout swipeRefreshLayout;
     ProgressDialog pd;
     TextView no_notifications;
     RecyclerView recyclerView;
@@ -72,10 +74,11 @@ public class NotificationFragment extends Fragment {
         currentUserId = fAuth.getCurrentUser().getUid();
 
         pd = new ProgressDialog(getActivity());
-
         pd.show();
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setContentView(R.layout.progress_dialog);
+
+        swipeRefreshLayout = root.findViewById(R.id.swipeRefresh_notifications);
 
         no_notifications = root.findViewById(R.id.no_notifies);
         recyclerView = root.findViewById(R.id.recyclerview_notifications);
@@ -89,6 +92,21 @@ public class NotificationFragment extends Fragment {
                 // Do not draw the divider
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                notification_list.clear();
+                loadUserRole();
+                notificationAdapter.notifyDataSetChanged();
+            }
+        });
+
+        loadUserRole();
+
+        return root;
+    }
+
+    public void loadUserRole() {
         fStore.collection("users").document(currentUserId).addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -98,19 +116,6 @@ public class NotificationFragment extends Fragment {
                 }
             }
         });
-
-        /*fStore.collection("users").document(currentUserId).addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot != null) {
-                    String role = documentSnapshot.getString("roles");
-                    if (role.equals("Worker")) {
-
-                    }
-                }
-            }
-        });*/
-        return root;
     }
 
     public void generateDates() {
@@ -154,12 +159,13 @@ public class NotificationFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (!document.getString("notification").equals("Your Booker_Past_notifications goes here")) {
-
                                         notification_list.add(new NotificationViewModel(document.getString("notification")));
+                                        no_notifications.setVisibility(View.GONE);
                                     if (role.equals("Worker")) {
                                         loadWorkerPastNotification(day);
                                     } else {
                                         pd.dismiss();
+                                        swipeRefreshLayout.setRefreshing(false);
                                         notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
                                         recyclerView.setAdapter(notificationAdapter);
                                     }
@@ -196,6 +202,7 @@ public class NotificationFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 pd.dismiss();
+                                swipeRefreshLayout.setRefreshing(false);
                                 if (!document.getString("notification").equals("Your Worker Past Notifications text goes here")) {
                                     if (!worker_notification.equals(document.getString("notification"))) {
                                         notification_list.add(new NotificationViewModel(document.getString("notification")));

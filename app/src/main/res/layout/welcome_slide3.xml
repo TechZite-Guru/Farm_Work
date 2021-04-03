@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="@dimen/img_width_height"
             android:layout_height="@dimen/img_width_height"
-            android:src="@drawable/ic_discount" />
+            android:src="@drawable/ic_baseline_money_24" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +31,8 @@
             android:paddingLeft="@dimen/desc_padding"
             android:paddingRight="@dimen/desc_padding"
             android:text="@string/slide_3_desc"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_desc" />
 

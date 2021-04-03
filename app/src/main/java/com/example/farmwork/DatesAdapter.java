@@ -16,6 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/*  Created by Aravind Babu Jagarlamudi
+    Project Name: Farm Work
+    Date: 28/12/2020
+    Team: Swapna Bharathi, Nagamani, Chandana sree, Sai Krupa
+*/
+
 public class DatesAdapter extends RecyclerView.Adapter<DatesAdapter.DatesAdapterVh> {
 
     private List<DatesViewModel> datesViewModelList;
