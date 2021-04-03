@@ -131,6 +131,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/kan_lang"
                 android:layout_weight="5"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -162,6 +163,8 @@
             android:layout_marginRight="20dp">
 
             <LinearLayout
+
+                android:id="@+id/mal_lang"
                 android:layout_weight="5"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -185,6 +188,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tamil_lang"
                 android:layout_weight="5"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"

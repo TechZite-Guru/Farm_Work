@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,7 +20,7 @@ import java.util.Locale;
 
 public class SelectLanguage extends AppCompatActivity {
 
-    LinearLayout layout_eng, layout_hindi, layout_tel;
+    LinearLayout layout_eng, layout_hindi, layout_tel, layout_kan, layout_mal, layout_tamil;
     Context context;
     TextView text_hindi_lang, text_tel_lang, text_eng_lang;
     private PrefManager prefManager;
@@ -40,6 +41,9 @@ public class SelectLanguage extends AppCompatActivity {
         layout_eng = findViewById(R.id.english_lang);
         layout_hindi = findViewById(R.id.hindi_lang);
         layout_tel = findViewById(R.id.tel_lang);
+        layout_kan = findViewById(R.id.kan_lang);
+        layout_mal = findViewById(R.id.mal_lang);
+        layout_tamil = findViewById(R.id.tamil_lang);
 
         text_eng_lang = findViewById(R.id.eng_lang_text);
         text_hindi_lang = findViewById(R.id.hindi_lang_text);
@@ -74,6 +78,24 @@ public class SelectLanguage extends AppCompatActivity {
                 //to_welcome.putExtra("mytext",language);
                 setLocale("te");
                 startActivity(to_welcome);
+            }
+        });
+        layout_kan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SelectLanguage.this, "This language support is under maintanance. Sorry for the inconvenience. Please select another language", Toast.LENGTH_LONG).show();
+            }
+        });
+        layout_mal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SelectLanguage.this, "This language support is under maintanance. Sorry for the inconvenience. Please select another language", Toast.LENGTH_LONG).show();
+            }
+        });
+        layout_tamil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SelectLanguage.this, "This language support is under maintanance. Sorry for the inconvenience. Please select another language", Toast.LENGTH_LONG).show();
             }
         });
     }
