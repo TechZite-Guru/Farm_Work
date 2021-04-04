@@ -230,6 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void WorkerNotification() {
         Map<String, Object> notifi = new HashMap<>();
         notifi.put("notification", "Your Worker Notification text goes here");
+        notifi.put("timestamp", System.currentTimeMillis());
 
         //creating a collection for notifications
         fStore.collection("Notifications").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -249,6 +250,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void BookerNotification() {
         Map<String, Object> notifi = new HashMap<>();
         notifi.put("notification", "Your Booker_Notifications text goes here");
+        notifi.put("timestamp", System.currentTimeMillis());
 
         fStore.collection("Booker_Notifications").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -286,6 +288,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Map<String, Object> notifi = new HashMap<>();
         notifi.put("notification", "Your Worker Past Notifications text goes here");
+        notifi.put("timestamp", System.currentTimeMillis());
 
         fStore.collection("Past_notifications").document(userID + day).collection("workerID").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -305,6 +308,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void BookerPastNotification(String day) {
         Map<String, Object> notifi = new HashMap<>();
         notifi.put("notification", "Your Booker_Past_notifications goes here");
+        notifi.put("timestamp", System.currentTimeMillis());
         fStore.collection("Booker_Past_notifications").document(userID+day).collection("workerID").document(userID).set(notifi).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

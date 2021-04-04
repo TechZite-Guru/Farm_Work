@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -91,6 +92,7 @@ public class NotificationFragment extends Fragment {
                 // Do not draw the divider
             }
         });
+        loadUserRole();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -99,8 +101,6 @@ public class NotificationFragment extends Fragment {
                 notificationAdapter.notifyDataSetChanged();
             }
         });
-
-        loadUserRole();
 
         return root;
     }
@@ -111,7 +111,7 @@ public class NotificationFragment extends Fragment {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if (documentSnapshot != null) {
                     role = documentSnapshot.getString("roles");
-                    loadBookerNotification();
+                    generateDates();
                 }
             }
         });
@@ -126,12 +126,18 @@ public class NotificationFragment extends Fragment {
             currentCal.add(Calendar.DATE, j);
             String toDate = dateFormat.format(currentCal.getTime());
             String booking_day = toDate.replaceAll("[^a-zA-Z]", "");
-            loadBookerPastNotification(booking_day);
+            if (role.equals("Worker")) {
+                loadBookerPastNotification(booking_day);
+                loadWorkerPastNotification(booking_day);
+            }
+            else {
+                loadBookerPastNotification(booking_day);
+            }
         }
     }
 
 
-    public void loadBookerNotification() {
+    /*public void loadBookerNotification() {
         fStore.collection("Booker_Notifications").document(currentUserId).addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -148,7 +154,7 @@ public class NotificationFragment extends Fragment {
                 }
             }
         });
-    }
+    }*/
 
     public void loadBookerPastNotification(String day) {
         fStore.collection("Booker_Past_notifications").document(currentUserId+day).collection("workerID").orderBy("timestamp").limitToLast(20).get()
@@ -156,6 +162,11 @@ public class NotificationFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            if (task.getResult().size() == 1) {
+                                pd.dismiss();
+                                swipeRefreshLayout.setRefreshing(false);
+                                no_notifications.setVisibility(View.VISIBLE);
+                            }
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (!document.getString("notification").equals("Your Booker_Past_notifications goes here")) {
                                     notification_list.add(new NotificationViewModel(document.getString("notification")));
@@ -165,14 +176,6 @@ public class NotificationFragment extends Fragment {
                                         notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
                                         recyclerView.setAdapter(notificationAdapter);
                                     }
-
-                                }
-                                else {
-                                    no_notifications.setVisibility(View.VISIBLE);
-                                }
-
-                                if (role.equals("Worker")) {
-                                    loadWorkerPastNotification(day);
                                 }
                             }
                         }
@@ -180,7 +183,7 @@ public class NotificationFragment extends Fragment {
                 });
     }
 
-    public void loadWorkerNotification() {
+   /* public void loadWorkerNotification() {
         fStore.collection("Notifications").document(currentUserId).addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -192,7 +195,7 @@ public class NotificationFragment extends Fragment {
                 }
             }
         });
-    }
+    }*/
 
     public void loadWorkerPastNotification(String day) {
         fStore.collection("Past_notifications").document(currentUserId+day).collection("workerID").orderBy("timestamp").limitToLast(20).get()
@@ -200,11 +203,17 @@ public class NotificationFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            if (task.getResult().size() == 1) {
+                                no_notifications.setVisibility(View.VISIBLE);
+                                no_notifications.setVisibility(View.GONE);
+                            }
+                            else {
+                                no_notifications.setVisibility(View.GONE);
+                            }
+                            pd.dismiss();
+                            swipeRefreshLayout.setRefreshing(false);
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                pd.dismiss();
-                                swipeRefreshLayout.setRefreshing(false);
                                 if (!document.getString("notification").equals("Your Worker Past Notifications text goes here")) {
-                                    no_notifications.setVisibility(View.GONE);
                                     notification_list.add(new NotificationViewModel(document.getString("notification")));
                                     notificationAdapter = new NotificationAdapter(notification_list, NotificationFragment.this);
                                     recyclerView.setAdapter(notificationAdapter);
@@ -212,7 +221,7 @@ public class NotificationFragment extends Fragment {
                             }
                         }
                     }
-                });
+        });
     }
 
     @Override

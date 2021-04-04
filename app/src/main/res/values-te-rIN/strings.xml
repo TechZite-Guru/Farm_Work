@@ -26,8 +26,6 @@
     <string name="phone_number">ఫోను నంబరు</string>
     <string name="otp">OTP</string>
     <string name="select_who_you_are">మీరు ఎవరో ఎంచుకోండి</string>
-    <string name="farmer">రైతు</string>
-    <string name="worker">కార్మికులు</string>
     <string name="farmer_details">రైతు వివరాలు</string>
     <string name="name">బుకర్ పేరు:</string>
     <string name="confirm_booking">బుకింగ్ నిర్ధారించండి</string>

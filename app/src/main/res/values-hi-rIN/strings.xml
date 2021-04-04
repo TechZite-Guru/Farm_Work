@@ -26,8 +26,6 @@
     <string name="phone_number">फ़ोन नंबर</string>
     <string name="otp">OTP</string>
     <string name="select_who_you_are">आप कौन हैं इसका चयन करें</string>
-    <string name="farmer">किसान</string>
-    <string name="worker">मज़दूर</string>
     <string name="farmer_details">किसान विवरण</string>
     <string name="name">बुकर नाम:</string>
     <string name="confirm_booking">बुकिंग की पुष्टि करें</string>
@@ -40,7 +38,7 @@
     <string name="add_phone_number">फोन नंबर डालें</string>
     <string name="update">"अपडेट "</string>
     <string name="logout">लॉग आउट</string>
-    <string name="book">रोक</string>
+    <string name="book">बुक</string>
     <string name="loading">लोड हो रहा है...</string>
     <string name="slide_1_desc">एक ऐसा प्लेटफॉर्म जो किसानों के लिए काम आसान बनाता है और फार्म वर्कर्स को बूस्ट अप करता है</string>
     <string name="slide_2_title">अपने कार्यकर्ता को बुक करें</string>

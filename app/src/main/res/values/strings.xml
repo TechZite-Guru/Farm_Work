@@ -41,8 +41,8 @@
     <string name="phone_number">Phone Number</string>
     <string name="otp">OTP</string>
     <string name="select_who_you_are">Select who you are:</string>
-    <string name="farmer">Farmer</string>
-    <string name="worker">Worker</string>
+    <string name="farmer" translatable="false">Farmer</string>
+    <string name="worker" translatable="false">Worker</string>
     <string name="farmer_details">FARMER DETAILS</string>
     <string name="name">Booker Name :</string>
     <string name="worker_name">Worker Name :</string>
