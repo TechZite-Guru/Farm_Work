@@ -2,18 +2,31 @@ package com.example.farmwork;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,12 +58,14 @@ public class Home extends AppCompatActivity implements LocationListener {
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     String currentUserID;
+    TextView progress_text;
     WorkerFragment workerFragment;
     CategoryAdapter categoryAdapter;
     private String full_address, locality, postalcode, adminarea;
-
     private double latitude, longitude;
     private String lat, lon;
+    ProgressDialog pd;
+    Button turn_gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,23 +83,49 @@ public class Home extends AppCompatActivity implements LocationListener {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        gettingCheck();
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         currentUserID = fAuth.getCurrentUser().getUid();
 
+        progress_text = findViewById(R.id.progress_text);
         recyclerView = findViewById(R.id.recyclerview);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        } else {
-            detectCurrentLocation();
+        locationAlertDialog();
+    }
+
+    public void gettingCheck() {
+        boolean check=checkConnection();
+        if (check == true) {
+            pd = new ProgressDialog(this);
+            pd.setCancelable(false);
+            /*pd.setMessage(getResources().getString(R.string.getting_location_please_check_gps_location));
+            pd.setButton(DialogInterface.BUTTON_POSITIVE, getResources().getString(R.string.location_setup), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });*/
+            pd.show();
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pd.setContentView(R.layout.progress_location);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            } else {
+                detectCurrentLocation();
+            }
+        }
+
+        else {
+            networkErrorAlertDialog();
         }
     }
 
@@ -127,6 +168,7 @@ public class Home extends AppCompatActivity implements LocationListener {
                         Log.d("Location", "Location Updated Succesfully");
                     }
                 });
+                pd.dismiss();
             }
 
         } catch (IOException e) {
@@ -198,5 +240,76 @@ public class Home extends AppCompatActivity implements LocationListener {
                 doubleBackToExitPressed = 1;
             }
         }, 2000);
+    }
+
+    private void locationAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        String phnumber = "Please Turn ON GPS if it is OFF. It is mandatory.";
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("GPS Location");
+        alertDialog.setMessage(phnumber);
+        alertDialog.setPositiveButton("   Turn ON GPS   ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        alertDialog.setNegativeButton("   Cancel  ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+        pbutton.setTextColor(Color.WHITE);
+    }
+
+    protected boolean checkConnection(){
+        ConnectivityManager conMan = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
+
+        final boolean connected = networkInfo != null
+                && networkInfo.isAvailable()
+                && networkInfo.isConnected();
+
+        if ( !connected) {
+            Toast.makeText(this, "Failed to connect to internet.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void networkErrorAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        String message = "Please Check your Internet Connection";
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("No Internet");
+        alertDialog.setMessage(message);
+
+        alertDialog.setPositiveButton("   Retry   ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                gettingCheck();
+            }
+        });
+        alertDialog.setNegativeButton("   Close  ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finishAffinity();
+                System.exit(0);
+            }
+        });
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(getResources().getColor(R.color.orange_500));
+        pbutton.setTextColor(Color.WHITE);
     }
 }

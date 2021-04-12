@@ -165,7 +165,7 @@ public class NotificationFragment extends Fragment {
                             if (task.getResult().size() == 1) {
                                 pd.dismiss();
                                 swipeRefreshLayout.setRefreshing(false);
-                                no_notifications.setVisibility(View.VISIBLE);
+                                //no_notifications.setVisibility(View.VISIBLE);
                             }
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (!document.getString("notification").equals("Your Booker_Past_notifications goes here")) {
@@ -204,11 +204,10 @@ public class NotificationFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult().size() == 1) {
-                                no_notifications.setVisibility(View.VISIBLE);
-                                no_notifications.setVisibility(View.GONE);
+                                //no_notifications.setVisibility(View.GONE);
                             }
                             else {
-                                no_notifications.setVisibility(View.GONE);
+                                //no_notifications.setVisibility(View.GONE);
                             }
                             pd.dismiss();
                             swipeRefreshLayout.setRefreshing(false);

@@ -44,7 +44,6 @@ public class SplashScreen extends Activity {
         pd = new ProgressDialog(this);
 
         progressBar = findViewById(R.id.progress_circular);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255, 161, 0), PorterDuff.Mode.SRC_ATOP);
 
         checkAuth();
     }
@@ -91,7 +90,7 @@ public class SplashScreen extends Activity {
                 startActivity(intent);
                 finish();
             }
-        },1000);
+        },3000);
     }
 
     public void loadLocale(){

@@ -105,7 +105,7 @@ public class SelectLanguage extends AppCompatActivity {
         startActivity(new Intent(SelectLanguage.this, LoginActivity.class));
     }
 
-    private void setLocale(String lang){
+    private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();

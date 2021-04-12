@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
     android:orientation="vertical"
     android:gravity="center"
     android:layout_gravity="center"
@@ -21,10 +23,19 @@
         android:id="@+id/progress_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/getting_data"
+        android:text="@string/getting_location_please_check_gps_location"
         android:textSize="17sp"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_marginTop="10dp"
         android:textColor="@color/text_grey"/>
+
+    <Button
+        android:id="@+id/turn_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location_setup"
+        android:layout_marginTop="20dp"/>
 
 
 </LinearLayout>

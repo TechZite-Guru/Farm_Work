@@ -78,4 +78,7 @@
     <string name="check_your_internet_connection">Check your Network Connection</string>
     <string name="you_don_t_have_notifications">You Don\'t have Notifications</string>
     <string name="booking_success" translatable="false">Booking Success</string>
+    <string name="tagline" translatable="false">#1 The Best Rental Platform for Farmers for Agricultural works</string>
+    <string name="getting_location_please_check_gps_location" translatable="false">Getting Location... Please check GPS Location</string>
+    <string name="location_setup" translatable="false">Turn ON GPS</string>
 </resources>
