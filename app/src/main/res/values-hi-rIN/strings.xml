@@ -68,4 +68,13 @@
     <string name="no_upcoming_works_available" translatable="false">कोई आगामी कार्य उपलब्ध नहीं है</string>
     <string name="check_your_internet_connection" translatable="false">"इंटरनेट से कनेक्ट करें "</string>
     <string name="you_don_t_have_notifications" translatable="false">आपके पास सूचनाएं नहीं हैं</string>
+    <string name="cutters">Cutters</string>
+    <string name="harvester">Harvester</string>
+    <string name="planting">Planting</string>
+    <string name="sprayers">Sprayers</string>
+    <string name="shredders">Shredders</string>
+    <string name="tillers">Tillers</string>
+    <string name="seeding">Seeding</string>
+    <string name="tractors">Tractors</string>
+    <string name="weeding">Weeding</string>
 </resources>

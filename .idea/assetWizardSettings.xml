@@ -322,7 +322,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../sdk_android/Android/Sdk/icons/material/materialicons/notifications/baseline_notifications_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../../sdk/icons/material/materialicons/directions/baseline_directions_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -332,8 +332,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_baseline_notifications_24" />
+                            <entry key="outputName" value="ic_baseline_directions_24" />
                             <entry key="sourceFile" value="C:\Users\Aravind Jagarlamudi\AndroidStudioProjects\FarmWork" />
                           </map>
                         </option>

@@ -81,4 +81,13 @@
     <string name="tagline" translatable="false">#1 The Best Rental Platform for Farmers for Agricultural works</string>
     <string name="getting_location_please_check_gps_location" translatable="false">Getting Location... Please check GPS Location</string>
     <string name="location_setup" translatable="false">Turn ON GPS</string>
+    <string name="cutters">Cutters</string>
+    <string name="harvester">Harvester</string>
+    <string name="planting">Planting</string>
+    <string name="sprayers">Sprayers</string>
+    <string name="shredders">Shredders</string>
+    <string name="tillers">Tillers</string>
+    <string name="seeding">Seeding</string>
+    <string name="tractors">Tractors</string>
+    <string name="weeding">Weeding</string>
 </resources>

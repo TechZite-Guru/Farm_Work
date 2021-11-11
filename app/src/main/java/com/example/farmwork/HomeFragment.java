@@ -138,8 +138,8 @@ public class HomeFragment extends Fragment {
         menuInflater.inflate(R.menu.actionbar_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.search_service);
 
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
+        //SearchView searchView = (SearchView) menuItem.getActionView();
+        //searchView.setMaxWidth(Integer.MAX_VALUE);
 
     }
     public boolean onOptionsItemSelected(@NonNull MenuItem item){

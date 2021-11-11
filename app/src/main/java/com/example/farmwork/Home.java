@@ -61,7 +61,7 @@ public class Home extends AppCompatActivity implements LocationListener {
     TextView progress_text;
     WorkerFragment workerFragment;
     CategoryAdapter categoryAdapter;
-    private String full_address, locality, postalcode, adminarea;
+    private String full_address, locality, postalcode, adminarea, town;
     private double latitude, longitude;
     private String lat, lon;
     ProgressDialog pd;
@@ -77,7 +77,7 @@ public class Home extends AppCompatActivity implements LocationListener {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_workers, R.id.navigation_notification, R.id.navigation_profile)
+                R.id.navigation_home, R.id.navigation_workers, R.id.navigation_machinery, R.id.navigation_notification, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -152,6 +152,7 @@ public class Home extends AppCompatActivity implements LocationListener {
             full_address = addresses.get(0).getAddressLine(0);
             locality = addresses.get(0).getLocality();
             adminarea = addresses.get(0).getAdminArea();
+            town = addresses.get(0).getSubAdminArea();
             postalcode = addresses.get(0).getPostalCode();
 
             if (full_address != null){
@@ -161,6 +162,7 @@ public class Home extends AppCompatActivity implements LocationListener {
                 location.put("longitude", longitude);
                 location.put("locality", locality);
                 location.put("adminarea", adminarea);
+                location.put("town", town);
                 location.put("postalcode", postalcode);
                 fStore.collection("users").document(currentUserID).update(location).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -178,14 +180,15 @@ public class Home extends AppCompatActivity implements LocationListener {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.000000000000000");
         lat = decimalFormat.format(latitude);
         lon = decimalFormat.format(longitude);
-        setLocale(postalcode, lat, lon);
+        setLocale(postalcode, lat, lon, adminarea);
     }
 
-    public void setLocale(String pin, String my_Latitude, String my_Longitude) {
+    public void setLocale(String pin, String my_Latitude, String my_Longitude, String adminarea) {
         SharedPreferences.Editor pincode = getSharedPreferences("Address", MODE_PRIVATE).edit();
         pincode.putString("User_Pin",pin);
         pincode.putString("User_Latitude", my_Latitude);
         pincode.putString("User_Longitude", my_Longitude);
+        pincode.putString("Admin_Area", adminarea);
         Log.d("LATITUDE_HOME", "" +my_Latitude);
         pincode.apply();
     }

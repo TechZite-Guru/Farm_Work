@@ -12,20 +12,31 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Booking_Details extends AppCompatActivity {
 
@@ -39,6 +50,8 @@ public class Booking_Details extends AppCompatActivity {
     private String hisid, Currenthisid, booking_date, booking_day, worker_name, worker_name_CAP, location, phone;
     String[] days = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
     private FirebaseFirestore firestore;
+
+    String bookertoken, usertoken;
 
 
     @Override
@@ -69,8 +82,55 @@ public class Booking_Details extends AppCompatActivity {
             worker_name_CAP = worker_name.toUpperCase();
         }
 
+        documentReference = fStore.collection("users").document(hisid);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        usertoken = document.getString("UserToken"); //Print the name
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        documentReference = fStore.collection("users").document(Currenthisid);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        bookertoken = document.getString("UserToken"); //Print the name
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
         booking_day = booking_date.replaceAll("[^a-zA-Z]", "");
         Log.d("Booking_Date", ""+booking_day);
+
 
         confirm_booking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +155,24 @@ public class Booking_Details extends AppCompatActivity {
                     booking_village.requestFocus();
                     return;
                 }
+
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE); inputMethodManager. hideSoftInputFromWindow(view. getApplicationWindowToken(),0);
+                // for sending notification to all
+                FirebaseMessaging.getInstance().subscribeToTopic("all");
+
+                //sending notification to the worker
+
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(usertoken, "#You're Booked!!",
+                        "---- Booker Details ----\n"+"Name: "+name123+"\n"+"Phone: "+phone123+"\n"+"Address: "+village+"\n"+"Date: "+booking_date+"\n\n"+"Call the Booker immediately to stay connected!", getApplicationContext(), Booking_Details.this);
+
+                notificationsSender.SendNotifications();
+
+                //sending notification to the booker
+
+                FcmNotificationsSender notificationsSender2 = new FcmNotificationsSender(bookertoken, "Booking Confirmed!!",
+                        "---- Worker Details ----\n"+"Name: "+worker_name+"\n"+"Phone: "+phone+"\n"+"Address: "+location+"\n"+"Date: "+booking_date+"\n\n"+"Call the Worker immediately to stay connected!", getApplicationContext(), Booking_Details.this);
+
+                notificationsSender2.SendNotifications();
                 storingBookingData();
             }
         });
@@ -202,6 +280,7 @@ public class Booking_Details extends AppCompatActivity {
         });
     }
     private void bookingAlertDialog() {
+
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         String message = getResources().getString(R.string.booker_notification_text1)+" "+worker_name_CAP+" "+getResources().getString(R.string.booker_notification_text2)+" "+booking_date;
         alertDialog.setCancelable(false);

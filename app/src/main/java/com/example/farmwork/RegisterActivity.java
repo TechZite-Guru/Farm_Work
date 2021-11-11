@@ -29,11 +29,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -50,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String userID, phone_number, AlphaNumericString, random_string_generated;
     private String register_email, register_fullName, search_name, register_phone, role, fare_amount;
     int n = 20;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,20 @@ public class RegisterActivity extends AppCompatActivity {
         phone.setText(phone_number);
 
         AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
+
+        // fcm settings for perticular user
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()) {
+                            token = Objects.requireNonNull(task.getResult()).getToken();
+                            Log.d("Token", ""+token);
+
+                        }
+                    }
+                });
 
         // create StringBuffer size of AlphaNumericString
         StringBuilder sb = new StringBuilder(n);
@@ -175,6 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("roles", role);
         user.put("search_name", search_name);
         user.put("random_string", random_string_generated);
+        user.put("UserToken", token);
         Log.d("Random String : ", random_string_generated);
         if (role.equals("Worker")) {
             user.put("fare", fare_amount);

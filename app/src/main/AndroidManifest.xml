@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.farmwork">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -7,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -18,7 +20,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FarmWork"
         android:windowSoftInputMode="stateVisible|adjustPan">
-        <activity android:name=".WorkerBookedHistory"></activity>
+
+        <service
+            android:name=".FirebaseMessagingService"
+            android:permission="TODO"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".EquipmentBookingPage"
+            android:exported="true" />
+        <activity
+            android:name=".ShopPage"
+            android:exported="true" />
+        <activity
+            android:name=".EquipmentShops"
+            android:exported="true" />
+        <activity android:name=".WorkerBookedHistory" />
         <activity android:name=".Booking_Details" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".BookingPage" />

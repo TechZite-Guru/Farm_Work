@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_worker" />
 
     <fragment
+        android:id="@+id/navigation_machinery"
+        android:name="com.example.farmwork.MachineryFragment"
+        android:label="Machinery"
+        tools:layout="@layout/fragment_machinery" />
+
+    <fragment
         android:id="@+id/navigation_notification"
         android:name="com.example.farmwork.NotificationFragment"
         android:label="@string/title_notifications"
