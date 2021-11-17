@@ -107,9 +107,9 @@ public class Home extends AppCompatActivity implements LocationListener {
                     startActivity(intent);
                 }
             });*/
-            pd.show();
-            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pd.setContentView(R.layout.progress_location);
+            //pd.show();
+            //pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            //pd.setContentView(R.layout.progress_location);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -170,7 +170,7 @@ public class Home extends AppCompatActivity implements LocationListener {
                         Log.d("Location", "Location Updated Succesfully");
                     }
                 });
-                pd.dismiss();
+                //pd.dismiss();
             }
 
         } catch (IOException e) {
@@ -180,15 +180,16 @@ public class Home extends AppCompatActivity implements LocationListener {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.000000000000000");
         lat = decimalFormat.format(latitude);
         lon = decimalFormat.format(longitude);
-        setLocale(postalcode, lat, lon, adminarea);
+        setLocale(postalcode, lat, lon, adminarea, full_address);
     }
 
-    public void setLocale(String pin, String my_Latitude, String my_Longitude, String adminarea) {
+    public void setLocale(String pin, String my_Latitude, String my_Longitude, String adminarea, String full_address) {
         SharedPreferences.Editor pincode = getSharedPreferences("Address", MODE_PRIVATE).edit();
         pincode.putString("User_Pin",pin);
         pincode.putString("User_Latitude", my_Latitude);
         pincode.putString("User_Longitude", my_Longitude);
         pincode.putString("Admin_Area", adminarea);
+        pincode.putString("Location", full_address);
         Log.d("LATITUDE_HOME", "" +my_Latitude);
         pincode.apply();
     }

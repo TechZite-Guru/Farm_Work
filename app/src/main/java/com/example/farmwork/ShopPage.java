@@ -24,9 +24,9 @@ public class ShopPage extends AppCompatActivity {
     int[] sampleImages = {R.drawable.farmland, R.drawable.worker, R.drawable.machinery};
     CarouselView carouselView;
 
-    Button mapBtn;
+    Button mapBtn, callBtn;
     TextView shopname, shopaddress, shopdesc, totalcut, totalharvest, totalplanter, totalspray, totalshredders, totaltillers, totalseeding, totaltractors, totalweeders;
-    String latitide, longitude, shopadd;
+    String latitide, longitude, shopadd, phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class ShopPage extends AppCompatActivity {
         totalweeders = findViewById(R.id.total_weeders);
 
         mapBtn = findViewById(R.id.map);
+        callBtn = findViewById(R.id.callBtn);
 
         carouselView = findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
@@ -75,6 +76,8 @@ public class ShopPage extends AppCompatActivity {
             totalseeding.setText(shopsViewModel.getTotalseeding());
             totaltractors.setText(shopsViewModel.getTotaltractors());
             totalweeders.setText(shopsViewModel.getTotalweeders());
+
+            phone = shopsViewModel.getPhoneNumber();
         }
 
         //String mapLink = "https://www.google.com/maps/dir/"+latitide+","+longitude+"/"+shopadd+"/";
@@ -89,7 +92,16 @@ public class ShopPage extends AppCompatActivity {
                 String url =mapLink;
                 intentMap.setData(Uri.parse(url));
                 //intentWhatsapp.setPackage("com.whatsapp");
-                v.getContext().startActivity(intentMap);
+                startActivity(intentMap);
+            }
+        });
+
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intentCall);
+
             }
         });
     }
@@ -99,4 +111,5 @@ public class ShopPage extends AppCompatActivity {
             imageView.setImageResource(sampleImages[position]);
         }
     };
+
 }

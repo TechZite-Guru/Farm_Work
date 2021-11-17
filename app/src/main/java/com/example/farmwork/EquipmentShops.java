@@ -101,6 +101,7 @@ public class EquipmentShops extends AppCompatActivity implements ShopsListAdapte
                                     documentSnapshot.getString("ShopState"),
                                     documentSnapshot.getString("ShopPincode"),
                                     documentSnapshot.getString("ShopAddress"),
+                                    documentSnapshot.getString("Phone"),
                                     documentSnapshot.getString("Available"),
                                     documentSnapshot.getString("Description"),
                                     documentSnapshot.getString("TotalCutters"),

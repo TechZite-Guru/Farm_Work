@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class ShopsViewModel implements Serializable {
 
-    String shopName, shopState, shopVillage, shopStreet, shopDoorNo, description, shoppincode, shopTown, shopAddress;
+    String shopName, shopState, shopVillage, shopStreet, shopDoorNo, description, shoppincode, shopTown, shopAddress, phoneNumber;
     String available_count, totalcut, totalharvest, totalplanter, totalspray, totalshredders, totaltillers, totalseeding, totaltractors, totalweeders;
 
-    ShopsViewModel(String shopname, String shopDoorNo, String shopStreet, String shopVillage, String shopTown, String shopState, String shoppincode, String shopAddress, String available_count, String description, String totalcut, String totalharvest, String totalplanter, String totalspray, String totalshredders, String totaltillers, String totalseeding, String totaltractors, String totalweeders) {
+    ShopsViewModel(String shopname, String shopDoorNo, String shopStreet, String shopVillage, String shopTown, String shopState, String shoppincode, String shopAddress, String phoneNumber, String available_count, String description, String totalcut, String totalharvest, String totalplanter, String totalspray, String totalshredders, String totaltillers, String totalseeding, String totaltractors, String totalweeders) {
         this.shopState = shopState;
         this.shopDoorNo = shopDoorNo;
         this.shopStreet = shopStreet;
@@ -16,6 +16,7 @@ public class ShopsViewModel implements Serializable {
         this.shopVillage = shopVillage;
         this.shoppincode = shoppincode;
         this.shopAddress = shopAddress;
+        this.phoneNumber = phoneNumber;
         this.available_count = available_count;
         this.description = description;
         this.totalcut = totalcut;
@@ -48,6 +49,8 @@ public class ShopsViewModel implements Serializable {
     public String getShoppincode() { return shoppincode; }
 
     public String getShopAddress() { return shopAddress; }
+
+    public String getPhoneNumber() { return phoneNumber; }
 
     public String getAvailable_count() { return available_count; }
 

@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,15 +56,21 @@ public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListAdapter.Shop
     }
 
     public class ShopsListAdapterVh extends RecyclerView.ViewHolder {
-        TextView shopName, shopAddress, available;
-        LinearLayout linearLayout;
+        TextView shopName, shopAddress, available, languages;
+        RelativeLayout linearLayout;
+        Button call;
 
         public ShopsListAdapterVh(@NonNull View itemview) {
             super(itemview);
             shopName = itemview.findViewById(R.id.shopName);
             shopAddress = itemview.findViewById(R.id.shopAddress);
             available = itemview.findViewById(R.id.available);
-            linearLayout = itemview.findViewById(R.id.linear_layout_shop);
+            linearLayout = itemview.findViewById(R.id.relative_layout_shop);
+            languages = itemview.findViewById(R.id.languagesKnown);
+            languages.setVisibility(View.GONE);
+
+            call = itemview.findViewById(R.id.expertcallBtn);
+            call.setVisibility(View.GONE);
 
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

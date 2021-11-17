@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FarmWork"
         android:windowSoftInputMode="stateVisible|adjustPan">
+        <activity
+            android:name=".ExpertsPage"
+            android:exported="true" />
 
         <service
             android:name=".FirebaseMessagingService"

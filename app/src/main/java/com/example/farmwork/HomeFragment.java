@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     public RecyclerView recyclerView;
     Toolbar toolbar;
-    Button to_bookedhistory_bttn;
+    Button to_bookedhistory_bttn, expertsBtn;
     CategoryAdapter categoryAdapter;
     CarouselView carouselView;
     FirebaseFirestore fStore;
@@ -79,7 +79,17 @@ public class HomeFragment extends Fragment {
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
 
+        expertsBtn = root.findViewById(R.id.expertsBtn);
+
         takeRole();
+
+        expertsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toExperts = new Intent(getContext(), ExpertsPage.class);
+                startActivity(toExperts);
+            }
+        });
 
         return root;
     }
