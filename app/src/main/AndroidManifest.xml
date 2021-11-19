@@ -21,8 +21,20 @@
         android:theme="@style/Theme.FarmWork"
         android:windowSoftInputMode="stateVisible|adjustPan">
         <activity
-            android:name=".ExpertsPage"
+            android:label="Article"
+            android:name=".Article"
             android:exported="true" />
+        <activity
+            android:name=".ArticlesList"
+            android:exported="true" />
+        <activity
+            android:name=".ArticlesCategories"
+            android:exported="true"
+            android:label="Articles" />
+        <activity
+            android:name=".ExpertsPage"
+            android:exported="true"
+            android:label="Our Experts" />
 
         <service
             android:name=".FirebaseMessagingService"
@@ -38,10 +50,12 @@
             android:exported="true" />
         <activity
             android:name=".ShopPage"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Shop Details" />
         <activity
             android:name=".EquipmentShops"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Shops List" />
         <activity android:name=".WorkerBookedHistory" />
         <activity android:name=".Booking_Details" />
         <activity android:name=".RegisterActivity" />

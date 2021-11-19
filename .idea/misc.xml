@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable-mdpi/shop_availability_layout_bg.xml" value="0.19895833333333332" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable-xhdpi/articleList_bg.xml" value="0.2546875" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable-xhdpi/layout.xml" value="0.2546875" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable-xhdpi/shop_layout_bg.xml" value="0.2453125" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/articleList_bg.xml" value="0.2546875" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/articlelist_bg.xml" value="0.13854166666666667" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/btn_custom.xml" value="0.19895833333333332" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/button_lang_normal.xml" value="0.19895833333333332" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/button_lang_selected.xml" value="0.2453125" />
@@ -20,6 +23,9 @@
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/shop_availability_layout_bg.xml" value="0.19895833333333332" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/shop_layout_bg.xml" value="0.2453125" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/drawable/worker_tab_bg.xml" value="0.2453125" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_article.xml" value="0.1921875" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_articles_categories.xml" value="0.17291666666666666" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_articles_list.xml" value="0.264" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_booking_page.xml" value="0.1828125" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_equipment_booking_page.xml" value="0.1828125" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_equipment_shops.xml" value="0.22916666666666666" />
@@ -27,6 +33,8 @@
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_home2.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_shop_page.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/activity_splash_screen.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/articlecategorylistitem.xml" value="0.17135416666666667" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/articlelistitem.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/fragment_home.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/fragment_machinery.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/fragment_notification.xml" value="0.23854166666666668" />
@@ -34,6 +42,7 @@
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/nextday_layout.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/progress_location.xml" value="0.16875" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/shopslist.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/layout/worker_booked_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Aravind Jagarlamudi/AndroidStudioProjects/FarmWork/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>
     </option>
